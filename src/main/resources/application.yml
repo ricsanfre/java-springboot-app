@@ -1,0 +1,11 @@
+server:
+  # Tomcat port
+  port: 8080
+  # Include error messages
+  error:
+    include-message: always
+spring:
+  main:
+    # Servlet as default application type
+    web-application-type: servlet
+

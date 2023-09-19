@@ -1,5 +1,6 @@
 package com.ricsanfre.customer;
 
+import com.ricsanfre.exception.ResourceNotFound;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +17,6 @@ public class CustomerService {
 
     public Customer getCustomerById(Integer id) {
         return customerDAO.getCustomerById(id)
-                .orElseThrow(()-> new IllegalArgumentException("customer with id [%s] is not found".formatted(id)));
+                .orElseThrow(()-> new ResourceNotFound("customer with id [%s] is not found".formatted(id)));
     }
 }
