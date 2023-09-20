@@ -8,4 +8,19 @@ spring:
   main:
     # Servlet as default application type
     web-application-type: servlet
+  # PosgreSQL cofiguration
+  datasource:
+    url: jdbc:postgresql://localhost:5332/customer
+    username: ricsanfre
+    password: s1cret0
+  # JPA configuration
+  jpa:
+    hibernate:
+      # Create and delete schema whenever app is restarted.
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show_sql: true
 

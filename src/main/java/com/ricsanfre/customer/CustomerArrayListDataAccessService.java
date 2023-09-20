@@ -5,8 +5,8 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-@Repository("fake")
-public class CustomerDataAccessService implements CustomerDAO{
+@Repository("list")
+public class CustomerArrayListDataAccessService implements CustomerDAO{
 
     private static final List<Customer> customers;
 
