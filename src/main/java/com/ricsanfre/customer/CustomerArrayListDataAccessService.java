@@ -51,4 +51,9 @@ public class CustomerArrayListDataAccessService implements CustomerDAO {
             customers.remove(customer.get());
         }
     }
+
+    @Override
+    public void updateCustomer(Customer customer) {
+       // Nothing to do. Customer already updated by CustomerService
+    }
 }

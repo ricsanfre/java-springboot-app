@@ -13,4 +13,6 @@ public interface CustomerDAO {
 
     boolean exitsCustomerWithId(Integer id);
     void deleteCustomerById(Integer id);
+
+    void updateCustomer(Customer customer);
 }

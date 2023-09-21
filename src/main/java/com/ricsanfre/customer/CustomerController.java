@@ -21,7 +21,7 @@ public class CustomerController {
     public Customer getCustomer(@PathVariable("id") Integer id) {
         return customerService.getCustomerById(id);
     }
-    @PostMapping(value = "api/v1/customer")
+    @PostMapping("api/v1/customer")
     public void registerCustomer(@RequestBody CustomerRegistrationRequest request) {
         customerService.addCustomer(request);
 
@@ -31,4 +31,10 @@ public class CustomerController {
         customerService.deleteCustomerById(id);
 
     }
+    @PutMapping("api/v1/customer/{id}")
+    public void updateCustomer(@PathVariable("id") Integer id, @RequestBody CustomerUpdateRequest request) {
+        customerService.updateCustomer(id,request);
+
+    }
+
 }

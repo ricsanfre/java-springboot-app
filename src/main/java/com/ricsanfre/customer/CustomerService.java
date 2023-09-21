@@ -1,6 +1,7 @@
 package com.ricsanfre.customer;
 
 import com.ricsanfre.exception.CustomerAlreadyExistsException;
+import com.ricsanfre.exception.RequestValidationException;
 import com.ricsanfre.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -41,11 +42,44 @@ public class CustomerService {
 
     public void deleteCustomerById(Integer id) {
         // First check if the customer exits
-        if(customerDAO.exitsCustomerWithId(id)) {
+        if (customerDAO.exitsCustomerWithId(id)) {
             customerDAO.deleteCustomerById(id);
         } else {
             throw new ResourceNotFoundException("Customer with id [%s] not found".formatted(id));
         }
+    }
 
+    public void updateCustomer(Integer id, CustomerUpdateRequest updateRequest) {
+        // Check if the id exists
+        if (!customerDAO.exitsCustomerWithId(id)) {
+            throw new ResourceNotFoundException("Customer with id [%s] not found".formatted(id));
+        }
+        // Check if there is changes
+        Customer customer = getCustomerById(id);
+        boolean somethingChange = false;
+        // some of the fields are updated
+        if (updateRequest.name() != null &&
+                !customer.getName().equals(updateRequest.name())) {
+            customer.setName(updateRequest.name());
+            somethingChange = true;
+        }
+        if (updateRequest.email() != null &&
+                !customer.getEmail().equals(updateRequest.email())) {
+            if (customerDAO.exitsCustomerWithEmail(updateRequest.email())) {
+                throw new CustomerAlreadyExistsException("Customer with email [%s] already exists"
+                        .formatted(updateRequest.email()));
+            }
+            customer.setEmail(updateRequest.email());
+            somethingChange = true;
+        }
+        if (updateRequest.age() != null && !customer.getAge().equals(updateRequest.age())) {
+            customer.setAge(updateRequest.age());
+            somethingChange = true;
+        }
+        if (somethingChange) {
+            customerDAO.updateCustomer(customer);
+        } else {
+            throw new RequestValidationException("No changes to update");
+        }
     }
 }
