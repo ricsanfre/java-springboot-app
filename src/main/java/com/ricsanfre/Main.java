@@ -17,6 +17,7 @@ public class Main {
         SpringApplication.run(Main.class, args);
     }
 
+    // Insert some Customer records into database on startup
     @Bean
     CommandLineRunner runner(CustomerRepository customerRepository){
         return args -> {
