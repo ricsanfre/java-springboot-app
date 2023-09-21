@@ -1,8 +1,6 @@
 package com.ricsanfre.customer;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
@@ -22,5 +20,15 @@ public class CustomerController {
     @GetMapping("api/v1/customer/{id}")
     public Customer getCustomer(@PathVariable("id") Integer id) {
         return customerService.getCustomerById(id);
+    }
+    @PostMapping(value = "api/v1/customer")
+    public void registerCustomer(@RequestBody CustomerRegistrationRequest request) {
+        customerService.addCustomer(request);
+
+    }
+    @DeleteMapping("api/v1/customer/{id}")
+    public void deleteCustomer(@PathVariable("id") Integer id) {
+        customerService.deleteCustomerById(id);
+
     }
 }
