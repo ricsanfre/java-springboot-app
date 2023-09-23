@@ -29,14 +29,14 @@ public class CustomerService {
     public void addCustomer(CustomerRegistrationRequest customerRegistrationRequest) {
         // Check if the customer already exist.
         // email as unique key
-        if (customerDAO.exitsCustomerWithEmail(customerRegistrationRequest.email())) {
+        if (customerDAO.exitsCustomerWithEmail(customerRegistrationRequest.getEmail())) {
             throw new CustomerAlreadyExistsException("Customer with email [%s] already exists"
-                    .formatted(customerRegistrationRequest.email()));
+                    .formatted(customerRegistrationRequest.getEmail()));
         }
         customerDAO.insertCustomer(
-                new Customer(customerRegistrationRequest.name(),
-                        customerRegistrationRequest.password(), customerRegistrationRequest.email(),
-                        customerRegistrationRequest.age())
+                new Customer(customerRegistrationRequest.getName(),
+                        customerRegistrationRequest.getPassword(), customerRegistrationRequest.getEmail(),
+                        customerRegistrationRequest.getAge())
         );
     }
 

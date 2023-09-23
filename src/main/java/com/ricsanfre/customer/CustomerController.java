@@ -1,5 +1,6 @@
 package com.ricsanfre.customer;
 
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class CustomerController {
         return customerService.getCustomerById(id);
     }
     @PostMapping("api/v1/customer")
-    public void registerCustomer(@RequestBody CustomerRegistrationRequest request) {
+    public void registerCustomer(@RequestBody @Valid CustomerRegistrationRequest request) {
         customerService.addCustomer(request);
 
     }
