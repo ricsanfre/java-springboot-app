@@ -4,6 +4,8 @@ server:
   # Include error messages
   error:
     include-message: always
+    include-binding-errors: always
+    include-stack-trace: on_param
 spring:
   main:
     # Servlet as default application type
