@@ -35,7 +35,7 @@ public class CustomerService {
         }
         customerDAO.insertCustomer(
                 new Customer(customerRegistrationRequest.name(),
-                        customerRegistrationRequest.email(),
+                        customerRegistrationRequest.password(), customerRegistrationRequest.email(),
                         customerRegistrationRequest.age())
         );
     }
@@ -61,6 +61,11 @@ public class CustomerService {
         if (updateRequest.name() != null &&
                 !customer.getName().equals(updateRequest.name())) {
             customer.setName(updateRequest.name());
+            somethingChange = true;
+        }
+        if (updateRequest.password() != null &&
+                !customer.getName().equals(updateRequest.password())) {
+            customer.setName(updateRequest.password());
             somethingChange = true;
         }
         if (updateRequest.email() != null &&
