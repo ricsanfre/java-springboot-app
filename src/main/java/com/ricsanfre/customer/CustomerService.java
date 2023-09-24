@@ -3,6 +3,8 @@ package com.ricsanfre.customer;
 import com.ricsanfre.exception.CustomerAlreadyExistsException;
 import com.ricsanfre.exception.RequestValidationException;
 import com.ricsanfre.exception.ResourceNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,9 @@ import java.util.List;
 @Service
 public class CustomerService {
 
+    // Logger SLF4J (Interface)
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomerService.class);
+    // DAO
     private final CustomerDAO customerDAO;
 
     public CustomerService(@Qualifier("jpa") CustomerDAO customerDAO) {
@@ -18,12 +23,21 @@ public class CustomerService {
     }
 
     public List<Customer> getAllCustomers() {
+        LOGGER.info("getAllCustomers() starting");
         return customerDAO.getAllCustomers();
     }
 
     public Customer getCustomerById(Integer id) {
+        LOGGER.info("getCustomerByID started: id [{}]",id);
         return customerDAO.getCustomerById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("customer with id [%s] is not found".formatted(id)));
+                .orElseThrow(
+                        () -> {
+                            ResourceNotFoundException resourceNotFoundException =
+                                    new ResourceNotFoundException("customer with id [%s] is not found".formatted(id));
+                            LOGGER.error("getCustomerById(): error getting customer {}", id,resourceNotFoundException );
+                            return resourceNotFoundException;
+                        }
+                );
     }
 
     public void addCustomer(CustomerRegistrationRequest customerRegistrationRequest) {
