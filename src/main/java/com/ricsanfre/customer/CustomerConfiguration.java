@@ -16,7 +16,7 @@ public class CustomerConfiguration {
 
     // CommandLineRunner Executing code on startup
     @Bean
-    CommandLineRunner commandLineRunner(CustomerRepository customerRepository) {
+    CommandLineRunner customerDBInitialLoad(CustomerRepository customerRepository) {
         return args -> {
             // Insert some Customer records into database on startup
             Customer alex = new Customer("alex", "s1cret0", "alex@mail.com", 21);
