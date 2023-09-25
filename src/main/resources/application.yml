@@ -10,7 +10,7 @@ spring:
   main:
     # Servlet as default application type
     web-application-type: servlet
-  # PosgreSQL cofiguration
+  # PostgreSQL configuration
   datasource:
     url: jdbc:postgresql://localhost:5332/customer
     username: ricsanfre
@@ -26,3 +26,27 @@ spring:
         format_sql: true
     show_sql: true
 
+#  Actuators
+#  https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html
+
+# Enable exposure of all endpoints. By default, only health is exposed by web endpoint
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, prometheus
+  # Enabling exposure of env app information in applications.properties file
+  info:
+    env:
+      enabled: true
+  # Show health details
+  endpoint:
+    health:
+      show-details: always
+# Configuring env info
+info:
+  app:
+    name: spring-boot-example
+    description: "Spring Boot Master Class code"
+    version: "1.0"
+  company: ricsanfre
