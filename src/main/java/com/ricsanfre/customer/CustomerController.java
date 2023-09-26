@@ -22,6 +22,11 @@ public class CustomerController {
     public Customer getCustomer(@PathVariable("id") Integer id) {
         return customerService.getCustomerById(id);
     }
+    @GetMapping("api/v1/findCustomer")
+    public Customer getCustomerByEmail(@RequestParam("email") String email) {
+        return customerService.getCustomerByEmail(email);
+    }
+
     @PostMapping("api/v1/customer")
     public void registerCustomer(@RequestBody @Valid CustomerRegistrationRequest request) {
         customerService.addCustomer(request);

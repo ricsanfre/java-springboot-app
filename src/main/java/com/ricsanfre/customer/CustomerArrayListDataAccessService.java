@@ -30,6 +30,12 @@ public class CustomerArrayListDataAccessService implements CustomerDAO {
                 .findFirst();
     }
     @Override
+    public Optional<Customer> getCustomerByEmail(String email) {
+        return customers.stream()
+                .filter(c -> c.getEmail().equals(email)).findFirst();
+    }
+
+    @Override
     public void insertCustomer(Customer customer) {
         customers.add(customer);
     }
@@ -38,6 +44,8 @@ public class CustomerArrayListDataAccessService implements CustomerDAO {
     public boolean exitsCustomerWithEmail(String email) {
         return customers.stream().anyMatch(c-> c.getEmail().equals(email));
     }
+
+
 
     @Override
     public boolean exitsCustomerWithId(Integer id) {
@@ -55,5 +63,10 @@ public class CustomerArrayListDataAccessService implements CustomerDAO {
     @Override
     public void updateCustomer(Customer customer) {
        // Nothing to do. Customer already updated by CustomerService
+    }
+
+    @Override
+    public void deleteAll() {
+        customers.stream().forEach(c -> customers.remove(c));
     }
 }

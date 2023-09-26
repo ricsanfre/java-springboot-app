@@ -8,6 +8,7 @@ import java.util.Optional;
 public interface CustomerDAO {
     List<Customer> getAllCustomers();
     Optional<Customer> getCustomerById(Integer id);
+    Optional<Customer> getCustomerByEmail(String email);
     void insertCustomer(Customer customer);
     boolean exitsCustomerWithEmail(String email);
 
@@ -15,4 +16,5 @@ public interface CustomerDAO {
     void deleteCustomerById(Integer id);
 
     void updateCustomer(Customer customer);
+    void deleteAll();
 }

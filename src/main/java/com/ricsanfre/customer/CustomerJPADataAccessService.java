@@ -24,6 +24,11 @@ public class CustomerJPADataAccessService implements CustomerDAO {
     }
 
     @Override
+    public Optional<Customer> getCustomerByEmail(String email) {
+        return Optional.ofNullable(customerRepository.getCustomerByEmail(email));
+    }
+
+    @Override
     public void insertCustomer(Customer customer) {
         customerRepository.save(customer);
     }
@@ -46,5 +51,10 @@ public class CustomerJPADataAccessService implements CustomerDAO {
     @Override
     public void updateCustomer(Customer customer) {
         customerRepository.save(customer);
+    }
+
+    @Override
+    public void deleteAll() {
+        customerRepository.deleteAll();
     }
 }

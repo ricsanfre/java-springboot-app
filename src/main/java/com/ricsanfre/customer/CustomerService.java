@@ -40,6 +40,18 @@ public class CustomerService {
                 );
     }
 
+    public Customer getCustomerByEmail(String email) {
+        LOGGER.info("getCustomerByEmail started: email [{}]",email);
+        return customerDAO.getCustomerByEmail(email)
+                .orElseThrow(
+                        () -> {
+                            ResourceNotFoundException resourceNotFoundException =
+                                    new ResourceNotFoundException("customer with email [%s] is not found".formatted(email));
+                            LOGGER.error("getCustomerById(): error getting customer {}", email,resourceNotFoundException );
+                            return resourceNotFoundException;
+                        }
+                );
+    }
     public void addCustomer(CustomerRegistrationRequest customerRegistrationRequest) {
         // Check if the customer already exist.
         // email as unique key
