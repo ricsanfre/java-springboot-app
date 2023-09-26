@@ -3,7 +3,11 @@ package com.ricsanfre.customer;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.ToString;
 
+@ToString
+@AllArgsConstructor
 public class CustomerRegistrationRequest {
 
     @NotBlank(message = "name must be not empty")
@@ -15,13 +19,6 @@ public class CustomerRegistrationRequest {
     private final String email;
 
     private final Integer age;
-
-    public CustomerRegistrationRequest(String name, String password, String email, Integer age) {
-        this.name = name;
-        this.password = password;
-        this.email = email;
-        this.age = age;
-    }
 
     public String getName() {
         return name;
@@ -39,13 +36,4 @@ public class CustomerRegistrationRequest {
         return age;
     }
 
-    @Override
-    public String toString() {
-        return "CustomerRegistrationRequest{" +
-                "name='" + name + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", age=" + age +
-                '}';
-    }
 }

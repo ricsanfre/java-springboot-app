@@ -3,6 +3,7 @@ package com.ricsanfre.customer;
 import com.ricsanfre.exception.CustomerAlreadyExistsException;
 import com.ricsanfre.exception.RequestValidationException;
 import com.ricsanfre.exception.ResourceNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -11,10 +12,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@Slf4j
 public class CustomerService {
 
     // Logger SLF4J (Interface)
-    private static final Logger LOGGER = LoggerFactory.getLogger(CustomerService.class);
+    // private static final Logger LOGGER = LoggerFactory.getLogger(CustomerService.class);
+
     // DAO
     private final CustomerDAO customerDAO;
 
@@ -23,31 +26,36 @@ public class CustomerService {
     }
 
     public List<Customer> getAllCustomers() {
-        LOGGER.info("getAllCustomers() starting");
+        // LOGGER.info("getAllCustomers() starting");
+        log.info("getAllCustomers() starting");
         return customerDAO.getAllCustomers();
     }
 
     public Customer getCustomerById(Integer id) {
-        LOGGER.info("getCustomerByID started: id [{}]",id);
+        // LOGGER.info("getCustomerByID started: id [{}]",id);
+        log.info("getCustomerByID started: id [{}]",id);
         return customerDAO.getCustomerById(id)
                 .orElseThrow(
                         () -> {
                             ResourceNotFoundException resourceNotFoundException =
                                     new ResourceNotFoundException("customer with id [%s] is not found".formatted(id));
-                            LOGGER.error("getCustomerById(): error getting customer {}", id,resourceNotFoundException );
+                            log.error("getCustomerById(): error getting customer {}", id,resourceNotFoundException );
+                            // LOGGER.error("getCustomerById(): error getting customer {}", id,resourceNotFoundException );
                             return resourceNotFoundException;
                         }
                 );
     }
 
     public Customer getCustomerByEmail(String email) {
-        LOGGER.info("getCustomerByEmail started: email [{}]",email);
+        // LOGGER.info("getCustomerByEmail started: email [{}]",email);
+        log.info("getCustomerByEmail started: email [{}]",email);
         return customerDAO.getCustomerByEmail(email)
                 .orElseThrow(
                         () -> {
                             ResourceNotFoundException resourceNotFoundException =
                                     new ResourceNotFoundException("customer with email [%s] is not found".formatted(email));
-                            LOGGER.error("getCustomerById(): error getting customer {}", email,resourceNotFoundException );
+                            // LOGGER.error("getCustomerById(): error getting customer {}", email,resourceNotFoundException );
+                            log.error("getCustomerById(): error getting customer {}", email,resourceNotFoundException );
                             return resourceNotFoundException;
                         }
                 );
