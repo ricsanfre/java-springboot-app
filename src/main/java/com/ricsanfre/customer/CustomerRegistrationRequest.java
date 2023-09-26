@@ -4,8 +4,10 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.ToString;
 
+@Getter
 @ToString
 @AllArgsConstructor
 public class CustomerRegistrationRequest {
@@ -19,21 +21,5 @@ public class CustomerRegistrationRequest {
     private final String email;
 
     private final Integer age;
-
-    public String getName() {
-        return name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
 
 }
