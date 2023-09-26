@@ -1,12 +1,12 @@
-package com.ricsanfre.exception;
+package com.ricsanfre.demo.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-// @ResponseStatus(value = HttpStatus.NOT_FOUND)
+// @ResponseStatus(HttpStatus.BAD_REQUEST)
 // ApiException Handler is managing responses to all exceptions
-public class ResourceNotFoundException extends RuntimeException {
-    public ResourceNotFoundException(String message) {
+public class RequestValidationException extends RuntimeException {
+    public RequestValidationException(String message) {
         super(message);
     }
 }

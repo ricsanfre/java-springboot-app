@@ -1,4 +1,4 @@
-package com.ricsanfre.customer;
+package com.ricsanfre.demo.customer;
 
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;

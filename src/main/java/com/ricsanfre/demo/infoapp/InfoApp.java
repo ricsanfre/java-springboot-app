@@ -1,4 +1,4 @@
-package com.ricsanfre.infoapp;
+package com.ricsanfre.demo.infoapp;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;

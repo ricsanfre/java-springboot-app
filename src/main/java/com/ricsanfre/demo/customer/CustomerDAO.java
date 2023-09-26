@@ -1,6 +1,4 @@
-package com.ricsanfre.customer;
-
-import jakarta.persistence.criteria.CriteriaBuilder;
+package com.ricsanfre.demo.customer;
 
 import java.util.List;
 import java.util.Optional;

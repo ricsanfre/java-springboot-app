@@ -1,4 +1,4 @@
-package com.ricsanfre.jsonplaceholder;
+package com.ricsanfre.demo.jsonplaceholder;
 
 // Record
 // Introduced in Java 14, Records are immutable data classes

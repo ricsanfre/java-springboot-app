@@ -1,4 +1,4 @@
-package com.ricsanfre.customer;
+package com.ricsanfre.demo.customer;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

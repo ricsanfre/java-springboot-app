@@ -1,4 +1,4 @@
-package com.ricsanfre.customer;
+package com.ricsanfre.demo.customer;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;

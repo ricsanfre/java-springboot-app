@@ -1,9 +1,8 @@
-package com.ricsanfre.customer;
+package com.ricsanfre.demo.customer;
 
-import com.ricsanfre.exception.CustomerAlreadyExistsException;
-import com.ricsanfre.exception.RequestValidationException;
-import com.ricsanfre.exception.ResourceNotFoundException;
-import lombok.extern.slf4j.Slf4j;
+import com.ricsanfre.demo.exception.CustomerAlreadyExistsException;
+import com.ricsanfre.demo.exception.RequestValidationException;
+import com.ricsanfre.demo.exception.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;

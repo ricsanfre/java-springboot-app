@@ -1,4 +1,4 @@
-package com.ricsanfre.customer;
+package com.ricsanfre.demo.customer;
 
 public record CustomerUpdateRequest(
         String name,

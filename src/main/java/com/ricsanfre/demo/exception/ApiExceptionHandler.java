@@ -1,4 +1,4 @@
-package com.ricsanfre.exception;
+package com.ricsanfre.demo.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
