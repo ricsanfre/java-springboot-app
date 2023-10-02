@@ -10,21 +10,34 @@ import lombok.ToString;
 
 import java.util.Objects;
 
+// Lombok annotations
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
 @Entity
+@Table(
+        name = "customer",
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name="customer_email_unique",
+                        columnNames = "email"
+                )
+        }
+)
 public class Customer {
     @Id
     @SequenceGenerator(
-            name = "customer_id_sequence",
-            sequenceName = "customer_id_sequence",
+            name = "customer_id_seq",
+            sequenceName = "customer_id_seq",
             allocationSize = 1
     )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "customer_id_sequence"
+            generator = "customer_id_seq"
+    )
+    @Column(
+            columnDefinition = "BIGSERIAL"
     )
     private Integer id;
     @Column(

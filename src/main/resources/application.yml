@@ -19,7 +19,12 @@ spring:
   jpa:
     hibernate:
       # Create and delete schema whenever app is restarted.
-      ddl-auto: create-drop
+      # ddl-auto: create-drop
+      # Do not automatically create DB schema
+      # Let's use Flyway
+      # ddl-auto: none
+      # validate DB schema without doing changes on DB
+      ddl-auto: validate
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect

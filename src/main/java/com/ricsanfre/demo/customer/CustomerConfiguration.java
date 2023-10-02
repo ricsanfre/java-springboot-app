@@ -1,10 +1,12 @@
 package com.ricsanfre.demo.customer;
 
+import com.github.javafaker.Faker;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
+import java.util.Random;
 
 @Configuration
 public class CustomerConfiguration {
@@ -18,11 +20,16 @@ public class CustomerConfiguration {
     @Bean
     CommandLineRunner customerDBInitialLoad(CustomerRepository customerRepository) {
         return args -> {
-            // Insert some Customer records into database on startup
-            Customer alex = new Customer("alex", "s1cret0", "alex@mail.com", 21);
-            Customer juan = new Customer("juan", "s1cret0", "juan@mail.com", 27);
-            List<Customer> customers = List.of(alex, juan);
-            customerRepository.saveAll(customers);
+            // Insert some random Customer record into database on startup
+            // Using JavaFaker and Random
+            Faker faker = new Faker();
+            Random random = new Random();
+            Customer customer = new Customer(
+                    faker.name().firstName(),
+                    faker.internet().password(),
+                    faker.internet().emailAddress(),
+                    random.nextInt(16,99));
+            customerRepository.save(customer);
         };
     }
 }
