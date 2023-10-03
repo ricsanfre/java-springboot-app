@@ -1,6 +1,7 @@
 package com.ricsanfre.demo.customer;
 
 import com.github.javafaker.Faker;
+import com.github.javafaker.Name;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,10 +25,13 @@ public class CustomerConfiguration {
             // Using JavaFaker and Random
             Faker faker = new Faker();
             Random random = new Random();
+            Name name = faker.name();
+            String firstName = name.firstName();
+            String lastName = name.lastName();
             Customer customer = new Customer(
-                    faker.name().firstName(),
+                    firstName + " " + lastName,
                     faker.internet().password(),
-                    faker.internet().emailAddress(),
+                    firstName.toLowerCase() + "." + lastName.toLowerCase() + "@example.com",
                     random.nextInt(16,99));
             customerRepository.save(customer);
         };

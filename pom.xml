@@ -30,11 +30,16 @@
     </dependencyManagement>
     <dependencies>
 
+        <!-- Spring Web MVC
+             https://docs.spring.io/spring-boot/docs/current/reference/html/web.html
+        -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!-- Testing
+        -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -46,53 +51,82 @@
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
+        <!--
+           PostgreSQL JDBC Drivers
+        -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
 
+        <!-- Spring Data JPA https://docs.spring.io/spring-data/jpa/docs/current/reference/html/
+             support for the Jakarta Persistence API (JPA)
+        -->
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
+        <!--Open Feign https://spring.io/projects/spring-cloud-openfeign
+            REST Client
+         -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
 
+        <!--Spring Boot Actuator https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html
+            Enabling monitoring endpoints
+         -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
+        <!-- Micrometer https://micrometer.io/
+            Adding Prometheus like metrics
+         -->
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-registry-prometheus</artifactId>
         </dependency>
-
+        <!--
+        @ConfigurationProperties Reading configuration properties
+        -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
 
+        <!--Lombok https://projectlombok.org/
+            Annotations to generate boilerplate code
+         -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
 
+        <!-- Enabling JDBC in Spring
+         -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
 
+        <!--FlyWay https://flywaydb.org/
+            Control DB Schema creation and Migration
+         -->
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
         </dependency>
 
+        <!--JavaFaker https://github.com/DiUS/java-faker
+            To generate random data
+         -->
         <dependency>
             <groupId>com.github.javafaker</groupId>
             <artifactId>javafaker</artifactId>

@@ -23,7 +23,7 @@ public class CustomerController {
         return customerService.getCustomerById(id);
     }
     @GetMapping("api/v1/findCustomer")
-    public Customer getCustomerByEmail(@RequestParam("email") String email) {
+    public Customer getCustomerByEmail(@RequestParam(value = "email") String email) {
         return customerService.getCustomerByEmail(email);
     }
 
