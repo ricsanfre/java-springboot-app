@@ -25,7 +25,7 @@ public class CustomerJPADataAccessService implements CustomerDAO {
 
     @Override
     public Optional<Customer> getCustomerByEmail(String email) {
-        return Optional.ofNullable(customerRepository.getCustomerByEmail(email));
+        return customerRepository.getCustomerByEmail(email);
     }
 
     @Override
