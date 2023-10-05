@@ -66,7 +66,6 @@ public class CustomerJDBCDataAccessService implements CustomerDAO {
                 customer.getEmail(),
                 customer.getAge());
 
-        System.out.println("jdbcTemplate update: " + update);
     }
 
     @Override
