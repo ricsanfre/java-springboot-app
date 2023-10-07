@@ -91,8 +91,8 @@ public class CustomerService {
             somethingChange = true;
         }
         if (updateRequest.password() != null &&
-                !customer.getName().equals(updateRequest.password())) {
-            customer.setName(updateRequest.password());
+                !customer.getPassword().equals(updateRequest.password())) {
+            customer.setPassword(updateRequest.password());
             somethingChange = true;
         }
         if (updateRequest.email() != null &&
