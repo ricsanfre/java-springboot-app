@@ -166,9 +166,108 @@
 
     <build>
         <plugins>
+
+
+            <!--
+                Spring-boot MVN plugin https://docs.spring.io/spring-boot/docs/current/maven-plugin/reference/htmlsingle/
+                Providing Spring-boot support in MAVEN
+            -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <!--
+                  Configuring sprig-boot-maven-plugin to run Integration Testing
+                  https://docs.spring.io/spring-boot/docs/current/maven-plugin/reference/htmlsingle/#integration-tests
+
+                  MVN FAILSAFE plugin executes integration tests. Phases executes spring-boot goals
+                    - pre-integration-test: execute spring-boot application start
+                    - integration-test: run Integration Tests
+                    - post-integration-test: executes spring-boot application stop
+                -->
+                <executions>
+                    <execution>
+                        <id>pre-integration-test</id>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                        <!--
+                          Configuring to use random port:
+                          https://docs.spring.io/spring-boot/docs/current/maven-plugin/reference/htmlsingle/#integration-tests.examples.random-port
+                        -->
+                        <configuration>
+                            <arguments>
+                                <argument>--server.port=${tomcat.http.port}</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>post-integration-test</id>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--
+              Configuring SUREFIRE (MVN UNIT TESTING PLUGIN)
+              https://maven.apache.org/surefire/maven-surefire-plugin/
+              SUREFIRE is used in 'mvn test' phase
+              Excluding Integration Tests from surefire unit test execution
+              By default surefire executes all tests whose java class name contains Test
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>**/*IntegrationTest.java</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+
+            <!--
+              Configuring FAILSAFE (MVN INTEGRATION TESTING PLUGIN)
+              https://maven.apache.org/surefire/maven-failsafe-plugin/
+              FAILSAFE is used in 'mvn verify' phase
+              Including Integration Tests, all tests whose java class name contains IntegrationTest
+            -->
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <configuration>
+                    <classesDirectory>${project.build.outputDirectory}</classesDirectory>
+                    <includes>
+                        <include>**/*IntegrationTest.java</include>
+                    </includes>
+                    <systemPropertyVariables>
+                        <test.server.port>${tomcat.http.port}</test.server.port>
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
+            <!--
+              Build Helper MVN plugin
+              Needed to start application using random port in integration testing phase
+              https://docs.spring.io/spring-boot/docs/current/maven-plugin/reference/htmlsingle/#integration-tests.examples.random-port
+            -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>reserve-tomcat-port</id>
+                        <goals>
+                            <goal>reserve-network-port</goal>
+                        </goals>
+                        <phase>process-resources</phase>
+                        <configuration>
+                            <portNames>
+                                <portName>tomcat.http.port</portName>
+                            </portNames>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
