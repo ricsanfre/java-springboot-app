@@ -14,7 +14,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5332/customer
     username: ricsanfre
-    password: s1cret0
+    password: password
   # JPA configuration
   jpa:
     hibernate:

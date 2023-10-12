@@ -4,7 +4,7 @@ services:
     image: postgres
     environment:
       POSTGRES_USER: ricsanfre
-      POSTGRES_PASSWORD: s1cret0
+      POSTGRES_PASSWORD: password
       PGDATA: /data/postgres
     volumes:
       - db:/data/postgres
@@ -19,7 +19,7 @@ services:
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/customer
     ports:
-      - "8080:8080"
+      - "8081:8080"
     networks:
       - db
     depends_on:
