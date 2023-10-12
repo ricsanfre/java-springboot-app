@@ -280,6 +280,7 @@
                 <groupId>com.google.cloud.tools</groupId>
                 <artifactId>jib-maven-plugin</artifactId>
                 <version>3.4.0</version>
+                <!--
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -288,6 +289,7 @@
                         </goals>
                     </execution>
                 </executions>
+                -->
                 <configuration>
                     <!-- base Image -->
                     <from>
