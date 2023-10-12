@@ -56,7 +56,7 @@ jobs:
         run: echo BUILD_NUMBER=`date '+%d.%m.%Y.%H.%M.%S'` >> $GITHUB_OUTPUT
 
       - name: Build Package and Push with Maven
-        run: mvn -ntp -B verify -Ddocker.image.tag=${{steps.build-number.outputs.BUILD_NUMBER}} jib.build
+        run: mvn -ntp -B verify -Ddocker.image.tag=${{steps.build-number.outputs.BUILD_NUMBER}} jib:build
 
         # sed -i -E 's_(ricsanfre/spring-boot-demo-api:)([^"]*)_\1'${BUILD_NUMBER}'_' Dockerrun.aws.json
       - name: Update Dockerrun.aws.json with Build number
