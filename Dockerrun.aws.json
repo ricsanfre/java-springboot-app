@@ -1,0 +1,27 @@
+{
+  "AWSEBDockerrunVersion": 2,
+   "containerDefinitions": [
+    {
+      "name": "demo-app",
+      "image": "ricsanfre/spring-boot-example:latest",
+      "essential": true,
+      "memory": 512,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 8080
+        }
+      ],
+      "environment": [
+        {
+          "name": "SPRING_DATASOURCE_URL",
+          "value": "jdbc:postgresql://awseb-e-mddg2zmpfs-stack-awsebrdsdatabase-cflagevj7g2d.cocyccnbq9um.eu-west-3.rds.amazonaws.com:5432/customer"
+        },
+        {
+          "name": "SPRING_DATASOURCE_PASSWORD",
+          "value": "password"
+        }
+      ]
+    }
+  ]
+}
