@@ -1,0 +1,43 @@
+name: CI - Build Backend
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - backend/**
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # Service containers to run with `container-job`
+    # Configuring PostgreSQL service container
+    # https://docs.github.com/en/actions/using-containerized-services/creating-postgresql-service-containers
+    services:
+      # Label used to access the service container
+      postgres:
+        # Docker Hub image
+        image: postgres
+        # Provide the user and password for postgres
+        env:
+          POSTGRES_USER: ricsanfre
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: customer
+        ports:
+          - 5332:5432
+          # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      # Checkout code
+      - uses: actions/checkout@v4
+      # Set-up Java JDK
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven'
+      - name: Build and run Unit/Integration test with Maven
+        run: mvn -ntp -B verify
+        working-directory: ./backend
