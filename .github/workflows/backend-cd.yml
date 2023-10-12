@@ -36,13 +36,13 @@ jobs:
       run:
         working-directory: ./backend
     steps:
+      # Checkout code
+      - uses: actions/checkout@v4
       - name: Send Slack Message (Start deployment)
         run: >
           curl -X POST -H 'Content-type: application/json' 
           --data '{"text":" :aws: Starting new deployment"}' 
           ${{ secrets.SLACK_WEBHOOK_URL }}
-      # Checkout code
-      - uses: actions/checkout@v4
       # Set-up Java JDK
       - uses: actions/setup-java@v3
         with:
