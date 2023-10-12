@@ -13,6 +13,21 @@ services:
     networks:
       - db
     restart: unless-stopped
+  demo-app:
+    container_name: demo-app
+    image: ricsanfre/spring-boot-example
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/customer
+    ports:
+      - "8080:8080"
+    networks:
+      - db
+    depends_on:
+      - db
+    restart: unless-stopped
+    # Not needed to pass JDBC URL because set environment variable.
+    # command:
+    #  - --spring.datasource.url=$POSTGRES_URL
 networks:
   db:
     driver: bridge
