@@ -9,16 +9,19 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.ricsanfre</groupId>
-    <artifactId>spring-boot-example</artifactId>
+    <artifactId>spring-boot-demo-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>spring-boot-example</name>
-    <description>Demo project for Spring Boot</description>
+    <name>spring-boot-demo-api</name>
+    <description>Demo API backend for Spring Boot</description>
     <organization>
         <name>ricsanfre</name>
     </organization>
     <properties>
         <java.version>17</java.version>
         <spring-cloud.version>2022.0.3</spring-cloud.version>
+        <docker.username>ricsanfre</docker.username>
+        <docker.image.name>spring-boot-demo-api</docker.image.name>
+        <docker.image.tag/>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -307,7 +310,7 @@
                     </from>
                     <!-- Destination image-->
                     <to>
-                        <image>docker.io/${organization.name}/${project.artifactId}:${project.version}</image>
+                        <image>docker.io/${docker.username}/${docker.image.name}:${docker.image.tag}</image>
                         <tags>
                             <tag>latest</tag>
                         </tags>
