@@ -1,9 +1,12 @@
 import { Button, ButtonGroup } from '@chakra-ui/react'
+import SidebarWithHeader from './shared/SideBar.jsx'
 
 // Main App
 const App = () => {
     return (
-        <Button colorScheme='teal' variant='solid'>Click Me</Button>
+        <SidebarWithHeader>
+            <Button colorScheme='teal' variant='solid'>Click Me</Button>
+        </SidebarWithHeader>
     )
 }
 
