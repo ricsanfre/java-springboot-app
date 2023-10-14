@@ -6,6 +6,12 @@ server:
     include-message: always
     include-binding-errors: always
     include-stack-trace: on_param
+
+# CORS config
+cors:
+  allowed-origins: "*"
+  allowed-methods: "*"
+
 spring:
   main:
     # Servlet as default application type
