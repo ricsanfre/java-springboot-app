@@ -1,7 +1,8 @@
-import {Button, Spinner, Text} from '@chakra-ui/react'
+import {Wrap, WrapItem, Spinner, Text} from '@chakra-ui/react'
 import SidebarWithHeader from './components/shared/SideBar.jsx'
 import {useEffect, useState} from "react";
 import {getCustomers} from "./services/client.js";
+import CardWithImage from "./components/Card.jsx";
 
 // Main App
 const App = () => {
@@ -35,7 +36,7 @@ const App = () => {
         )
     }
 
-    if(customers.length <= 0) {
+    if (customers.length <= 0) {
         return (
             <SidebarWithHeader>
                 <Text>No customers found</Text>
@@ -45,9 +46,13 @@ const App = () => {
 
     return (
         <SidebarWithHeader>
-            {customers.map((customer,index)=> (
-                <p>{customer.name}</p>
-            ))}
+            <Wrap spacing='30px' justify='center'>
+                {customers.map((customer, index) => (
+                    <WrapItem key={index}>
+                        <CardWithImage {...customer}/>
+                    </WrapItem>
+                ))}
+            </Wrap>
         </SidebarWithHeader>
     )
 }
