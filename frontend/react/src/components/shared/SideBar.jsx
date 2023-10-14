@@ -10,6 +10,7 @@ import {
   HStack,
   VStack,
   Icon,
+  Image,
   useColorModeValue,
   Text,
   Drawer,
@@ -51,10 +52,16 @@ const SidebarContent = ({ onClose, ...rest }) => {
       pos="fixed"
       h="full"
       {...rest}>
-      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-          Logo
+      <Flex h="20" flexDirection="column" alignItems="center" mx="8" mb="75" mt="2" justifyContent="space-between">
+        <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold" mb="6">
+          Dashboard
         </Text>
+        <Image
+          borderRadius='full'
+          boxSize='75px'
+          src='https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Spring_Boot.svg/512px-Spring_Boot.svg.png'
+          alt='Demo APP'
+        />
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
