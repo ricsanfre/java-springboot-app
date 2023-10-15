@@ -15,7 +15,7 @@ services:
     restart: unless-stopped
   demo-app:
     container_name: demo-app
-    image: ricsanfre/spring-boot-example
+    image: ricsanfre/spring-boot-demo-api
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/customer
     ports:
