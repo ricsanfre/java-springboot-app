@@ -3,11 +3,13 @@ package com.ricsanfre.demo.customer;
 import com.ricsanfre.demo.exception.CustomerAlreadyExistsException;
 import com.ricsanfre.demo.exception.RequestValidationException;
 import com.ricsanfre.demo.exception.ResourceNotFoundException;
+import org.apache.commons.lang3.EnumUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -54,6 +56,13 @@ public class CustomerService {
                 );
     }
     public void addCustomer(CustomerRegistrationRequest customerRegistrationRequest) {
+
+        // Check gender is valid value
+        if(!EnumUtils.isValidEnum(Gender.class,customerRegistrationRequest.getGender())) {
+            throw new RequestValidationException("Gender does not have a valid format. Permitted values: %s"
+                    .formatted(Arrays.toString(Gender.values())));
+        }
+
         // Check if the customer already exist.
         // email as unique key
         if (customerDAO.exitsCustomerWithEmail(customerRegistrationRequest.getEmail())) {
@@ -63,7 +72,8 @@ public class CustomerService {
         customerDAO.insertCustomer(
                 new Customer(customerRegistrationRequest.getName(),
                         customerRegistrationRequest.getPassword(), customerRegistrationRequest.getEmail(),
-                        customerRegistrationRequest.getAge())
+                        customerRegistrationRequest.getAge(),
+                        Gender.valueOf(customerRegistrationRequest.getGender()))
         );
     }
 
@@ -107,6 +117,16 @@ public class CustomerService {
         if (updateRequest.age() != null && !customer.getAge().equals(updateRequest.age())) {
             customer.setAge(updateRequest.age());
             somethingChange = true;
+        }
+        if (updateRequest.gender() != null) {
+            // Check gender is valid value
+            if(!EnumUtils.isValidEnum(Gender.class,updateRequest.gender())) {
+                throw new RequestValidationException("Gender does not have a valid format. Permitted values: %s"
+                        .formatted(Arrays.toString(Gender.values())));
+            } else if (!customer.getGender().name().equals(updateRequest.gender())) {
+                customer.setGender(Gender.valueOf(updateRequest.gender()));
+                somethingChange = true;
+            }
         }
         if (somethingChange) {
             customerDAO.updateCustomer(customer);

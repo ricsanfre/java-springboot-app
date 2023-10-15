@@ -57,7 +57,7 @@ class CustomerJPADataAccessServiceTest {
     @Test
     void insertCustomer() {
         // When
-        Customer customer = new Customer("foo","123","foo@mail.com",18);
+        Customer customer = new Customer("foo","123","foo@mail.com",18, Gender.FEMALE);
         underTest.insertCustomer(customer);
         // Then
         Mockito.verify(customerRepository).save(customer);
@@ -94,7 +94,7 @@ class CustomerJPADataAccessServiceTest {
     @Test
     void updateCustomer() {
         // When
-        Customer customer = new Customer("foo","123","foo@mail.com",18);
+        Customer customer = new Customer("foo","123","foo@mail.com",18, Gender.FEMALE);
         underTest.updateCustomer(customer);
         // Then
         Mockito.verify(customerRepository).save(customer);

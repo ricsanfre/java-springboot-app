@@ -5,6 +5,7 @@ import com.github.javafaker.Name;
 import com.ricsanfre.demo.customer.Customer;
 import com.ricsanfre.demo.customer.CustomerRegistrationRequest;
 import com.ricsanfre.demo.customer.CustomerUpdateRequest;
+import com.ricsanfre.demo.customer.Gender;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -43,9 +44,10 @@ public class CustomerIntegrationTest {
         String password = faker.internet().password();
         String email = fakerName.lastName() + "." + UUID.randomUUID() + "@example.com";
         Integer age = RANDOM.nextInt(16, 99);
+        Gender gender = Gender.randomGender();
 
         CustomerRegistrationRequest request = new CustomerRegistrationRequest(
-                name, password, email, age
+                name, password, email, age, gender.name()
         );
 
         // 2 - send POST request
@@ -70,7 +72,7 @@ public class CustomerIntegrationTest {
                 .getResponseBody();
 
         // 4 - make sure the customer is present
-        Customer expectedCustomer = new Customer(name, password, email, age);
+        Customer expectedCustomer = new Customer(name, password, email, age , gender);
 
         // Ignore in the comparison Id and password
         // (password is not returned in the getCustomers response: @JsonIgnore annotation
@@ -116,9 +118,10 @@ public class CustomerIntegrationTest {
         String password = faker.internet().password();
         String email = fakerName.lastName() + "." + UUID.randomUUID() + "@example.com";
         Integer age = RANDOM.nextInt(16, 99);
+        Gender gender = Gender.randomGender();
 
         CustomerRegistrationRequest request = new CustomerRegistrationRequest(
-                name, password, email, age
+                name, password, email, age, gender.name()
         );
 
         // 2 - send POST request
@@ -177,9 +180,10 @@ public class CustomerIntegrationTest {
         String password = faker.internet().password();
         String email = fakerName.lastName() + "." + UUID.randomUUID() + "@example.com";
         Integer age = RANDOM.nextInt(16, 99);
+        Gender gender = Gender.randomGender();
 
         CustomerRegistrationRequest request = new CustomerRegistrationRequest(
-                name, password, email, age
+                name, password, email, age, gender.name()
         );
 
         // 2 - send POST request
@@ -214,7 +218,7 @@ public class CustomerIntegrationTest {
         String newName = faker.name().fullName();
         Integer newAge = RANDOM.nextInt(15,99);
         CustomerUpdateRequest updateRequest = new CustomerUpdateRequest(
-                newName, null, null, newAge
+                newName, null, null, newAge, null
         );
 
         // 7 - Update Customer
@@ -230,7 +234,7 @@ public class CustomerIntegrationTest {
 
         // 8 - Get customer
 
-        Customer expectedCustomer = new Customer(id, newName, password, email, newAge);
+        Customer expectedCustomer = new Customer(id, newName, password, email, newAge, gender);
         expectedCustomer.setId(id);
 
         Customer actual = webTestClient.get()

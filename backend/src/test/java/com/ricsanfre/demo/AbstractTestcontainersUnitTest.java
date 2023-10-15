@@ -18,6 +18,8 @@ public abstract class AbstractTestcontainersUnitTest {
 
     protected static final Faker FAKER = new Faker();
 
+    protected static JdbcTemplate jdbcTemplate;
+
     @BeforeAll
     static void beforeAll() {
         // Configure Testcontainers DB using Flyway
@@ -29,6 +31,8 @@ public abstract class AbstractTestcontainersUnitTest {
                         postgreSQLContainer.getPassword())
                 .load();
         flyway.migrate();
+
+        jdbcTemplate = buildJdbcTemplate();
     }
 
     @Container
@@ -59,8 +63,12 @@ public abstract class AbstractTestcontainersUnitTest {
         return builder.build();
     }
 
-    protected static JdbcTemplate getJdbcTemplate() {
+    private static JdbcTemplate buildJdbcTemplate() {
         return new JdbcTemplate(getDataSource());
+    }
+
+    protected static JdbcTemplate getJdbcTemplate() {
+        return jdbcTemplate;
     }
 
 }

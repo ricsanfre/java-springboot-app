@@ -15,6 +15,8 @@ public class CustomerRowMapper implements RowMapper<Customer> {
                 rs.getString("name"),
                 rs.getString("password"),
                 rs.getString("email"),
-                rs.getInt("age"));
+                rs.getInt("age"),
+                Gender.valueOf(rs.getString("gender"))
+        );
     }
 }

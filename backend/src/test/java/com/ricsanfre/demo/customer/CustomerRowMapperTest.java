@@ -29,13 +29,14 @@ class CustomerRowMapperTest {
     void mapRow() throws SQLException {
 
         // Given
-        Customer expectedCustomer = new Customer (1,"John Doe", "123","foo@example.com", 21);
+        Customer expectedCustomer = new Customer (1,"John Doe", "123","foo@example.com", 21, Gender.MALE);
 
         Mockito.when(resultSet.getInt("id")).thenReturn(expectedCustomer.getId());
         Mockito.when(resultSet.getString("name")).thenReturn(expectedCustomer.getName());
         Mockito.when(resultSet.getString("password")).thenReturn(expectedCustomer.getPassword());
         Mockito.when(resultSet.getString("email")).thenReturn(expectedCustomer.getEmail());
         Mockito.when(resultSet.getInt("age")).thenReturn(expectedCustomer.getAge());
+        Mockito.when(resultSet.getString("gender")).thenReturn(expectedCustomer.getGender().name());
 
         // When
         Customer customer = underText.mapRow(resultSet, 1);

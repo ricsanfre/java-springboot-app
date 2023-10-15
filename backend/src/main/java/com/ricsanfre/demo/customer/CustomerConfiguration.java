@@ -27,11 +27,13 @@ public class CustomerConfiguration {
             Name name = faker.name();
             String firstName = name.firstName();
             String lastName = name.lastName();
+
             Customer customer = new Customer(
                     firstName + " " + lastName,
                     faker.internet().password(),
                     firstName.toLowerCase() + "." + lastName.toLowerCase() + "@example.com",
-                    random.nextInt(16,99));
+                    random.nextInt(16,99),
+                    Gender.randomGender());
             customerRepository.save(customer);
         };
     }

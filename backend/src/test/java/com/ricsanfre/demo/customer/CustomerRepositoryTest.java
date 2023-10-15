@@ -31,7 +31,8 @@ class CustomerRepositoryTest extends AbstractTestcontainersUnitTest {
                 FAKER.name().fullName(),
                 FAKER.internet().password(),
                 email,
-                20);
+                20,
+                Gender.randomGender());
         underTest.save(customer);
 
         int customerId = underTest.findAll().stream().filter(c -> c.getEmail().equals(email))
@@ -59,7 +60,8 @@ class CustomerRepositoryTest extends AbstractTestcontainersUnitTest {
                 FAKER.name().fullName(),
                 FAKER.internet().password(),
                 email,
-                20);
+                20,
+                Gender.randomGender());
         underTest.save(customer);
 
         int customerId = underTest.findAll().stream().filter(c -> c.getEmail().equals(email))
@@ -72,6 +74,7 @@ class CustomerRepositoryTest extends AbstractTestcontainersUnitTest {
             assertThat(c.getName()).isEqualTo(customer.getName());
             assertThat(c.getPassword()).isEqualTo(customer.getPassword());
             assertThat(c.getAge()).isEqualTo(customer.getAge());
+            assertThat(c.getGender()).isEqualTo(customer.getGender());
         });
     }
 

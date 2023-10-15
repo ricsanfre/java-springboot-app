@@ -37,6 +37,4 @@ public class ApiExceptionHandler {
         );
         return new ResponseEntity<>(apiErrorResponse, HttpStatus.CONFLICT);
     }
-
-
 }

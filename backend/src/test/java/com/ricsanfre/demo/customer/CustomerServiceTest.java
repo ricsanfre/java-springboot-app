@@ -3,21 +3,19 @@ package com.ricsanfre.demo.customer;
 import com.ricsanfre.demo.exception.CustomerAlreadyExistsException;
 import com.ricsanfre.demo.exception.RequestValidationException;
 import com.ricsanfre.demo.exception.ResourceNotFoundException;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
@@ -52,7 +50,7 @@ class CustomerServiceTest {
     void canGetCustomerById() {
         // Given
         Integer id=1;
-        Customer customer = new Customer("foo","123","foo@mail.com",18);
+        Customer customer = new Customer("foo","123","foo@mail.com",18,Gender.FEMALE);
         // Configuring behaviour of the Mock
         Mockito.when(customerDAO.getCustomerById(id)).thenReturn(Optional.of(customer));
         // When
@@ -77,7 +75,7 @@ class CustomerServiceTest {
     void canGetCustomerByEmail() {
         // Given
         String email="foo@example.com";
-        Customer customer = new Customer(1,"foo","123","foo@mail.com",18);
+        Customer customer = new Customer(1,"foo","123","foo@mail.com",18, Gender.FEMALE);
         // Configuring behaviour of the Mock
         Mockito.when(customerDAO.getCustomerByEmail(email)).thenReturn(Optional.of(customer));
         // When
@@ -102,7 +100,7 @@ class CustomerServiceTest {
         // Given
         Integer id=1;
         String email = "foo@mail.com";
-        Customer customer = new Customer("foo","123", email,18);
+        Customer customer = new Customer("foo","123", email,18, Gender.FEMALE);
         Mockito.when(customerDAO.exitsCustomerWithEmail(email)).thenReturn(false);
         // When
         CustomerRegistrationRequest request =
@@ -110,7 +108,8 @@ class CustomerServiceTest {
                         "foo",
                         "123",
                         email,
-                        21);
+                        21,
+                        "FEMALE");
 
         underTest.addCustomer(request);
         // Then
@@ -122,6 +121,7 @@ class CustomerServiceTest {
         assertThat(capturedCustomer.getName()).isEqualTo(request.getName());
         assertThat(capturedCustomer.getPassword()).isEqualTo(request.getPassword());
         assertThat(capturedCustomer.getAge()).isEqualTo(request.getAge());
+        assertThat(capturedCustomer.getGender()).isEqualTo(customer.getGender());
     }
     @Test
     void throwsExceptionWhenCustomerAlreadyExists() {
@@ -133,7 +133,8 @@ class CustomerServiceTest {
                         "foo",
                         "123",
                         email,
-                        21);
+                        21,
+                        "FEMALE");
 
         Mockito.when(customerDAO.exitsCustomerWithEmail(email)).thenReturn(true);
         // When
@@ -173,8 +174,8 @@ class CustomerServiceTest {
     void updateCustomerName() {
         // Given
         Integer id=1;
-        CustomerUpdateRequest request = new CustomerUpdateRequest("foo", null, null, null);
-        Customer customer = new Customer (id,"Jonh Doe","123","john@mail.com", 22);
+        CustomerUpdateRequest request = new CustomerUpdateRequest("foo", null, null, null, null);
+        Customer customer = new Customer (id,"Jonh Doe","123","john@mail.com", 22, Gender.FEMALE);
 
         // When
         // Configuring behaviour of the Mock
@@ -190,14 +191,14 @@ class CustomerServiceTest {
         assertThat(capturedCustomer.getName()).isEqualTo(request.name());
         assertThat(capturedCustomer.getPassword()).isEqualTo(customer.getPassword());
         assertThat(capturedCustomer.getAge()).isEqualTo(customer.getAge());
-
+        assertThat(capturedCustomer.getGender()).isEqualTo(customer.getGender());
     }
     @Test
     void updateCustomerPassword() {
         // Given
         Integer id=1;
-        CustomerUpdateRequest request = new CustomerUpdateRequest(null, "foo@mail.com", null, null);
-        Customer customer = new Customer (id,"Jonh Doe","123","john@mail.com", 22);
+        CustomerUpdateRequest request = new CustomerUpdateRequest(null, "foo@mail.com", null, null, null);
+        Customer customer = new Customer (id,"Jonh Doe","123","john@mail.com", 22, Gender.FEMALE);
 
         // When
         // Configuring behaviour of the Mock
@@ -213,14 +214,14 @@ class CustomerServiceTest {
         assertThat(capturedCustomer.getName()).isEqualTo(customer.getName());
         assertThat(capturedCustomer.getPassword()).isEqualTo(request.password());
         assertThat(capturedCustomer.getAge()).isEqualTo(customer.getAge());
-
+        assertThat(capturedCustomer.getGender()).isEqualTo(customer.getGender());
     }
     @Test
     void updateCustomerAge() {
         // Given
         Integer id=1;
-        CustomerUpdateRequest request = new CustomerUpdateRequest(null, null, null, 25);
-        Customer customer = new Customer (id,"Jonh Doe","123","john@mail.com", 22);
+        CustomerUpdateRequest request = new CustomerUpdateRequest(null, null, null, 25, null);
+        Customer customer = new Customer (id,"Jonh Doe","123","john@mail.com", 22, Gender.FEMALE);
 
         // When
         // Configuring behaviour of the Mock
@@ -236,13 +237,14 @@ class CustomerServiceTest {
         assertThat(capturedCustomer.getName()).isEqualTo(customer.getName());
         assertThat(capturedCustomer.getPassword()).isEqualTo(customer.getPassword());
         assertThat(capturedCustomer.getAge()).isEqualTo(request.age());
+        assertThat(capturedCustomer.getGender()).isEqualTo(customer.getGender());
     }
     @Test
     void updateCustomerEmail() {
         // Given
         Integer id=1;
-        CustomerUpdateRequest request = new CustomerUpdateRequest(null, null, "foo@mail.com", null);
-        Customer customer = new Customer (id,"Jonh Doe","123","john@mail.com", 22);
+        CustomerUpdateRequest request = new CustomerUpdateRequest(null, null, "foo@mail.com", null, null);
+        Customer customer = new Customer (id,"Jonh Doe","123","john@mail.com", 22, Gender.FEMALE);
 
         // When
         // Configuring behaviour of the Mock
@@ -260,13 +262,57 @@ class CustomerServiceTest {
         assertThat(capturedCustomer.getName()).isEqualTo(customer.getName());
         assertThat(capturedCustomer.getPassword()).isEqualTo(customer.getPassword());
         assertThat(capturedCustomer.getAge()).isEqualTo(customer.getAge());
+        assertThat(capturedCustomer.getGender()).isEqualTo(customer.getGender());
+    }
+
+    @Test
+    void updateCustomerGender() {
+        // Given
+        Integer id=1;
+        CustomerUpdateRequest request = new CustomerUpdateRequest(null, null, null, null, "MALE");
+        Customer customer = new Customer (id,"Jonh Doe","123","john@mail.com", 22, Gender.FEMALE);
+
+        // When
+        // Configuring behaviour of the Mock
+        Mockito.when(customerDAO.exitsCustomerWithId(id)).thenReturn(true);
+        Mockito.when(customerDAO.getCustomerById(id)).thenReturn(Optional.of(customer));
+
+        underTest.updateCustomer(id,request);
+        // Then
+        ArgumentCaptor<Customer> argumentCaptor = ArgumentCaptor.forClass(Customer.class);
+        Mockito.verify(customerDAO).updateCustomer(argumentCaptor.capture());
+        Customer capturedCustomer = argumentCaptor.getValue();
+        assertThat(capturedCustomer.getId()).isEqualTo(customer.getId());
+        assertThat(capturedCustomer.getEmail()).isEqualTo(customer.getEmail());
+        assertThat(capturedCustomer.getName()).isEqualTo(customer.getName());
+        assertThat(capturedCustomer.getPassword()).isEqualTo(customer.getPassword());
+        assertThat(capturedCustomer.getAge()).isEqualTo(customer.getAge());
+        assertThat(capturedCustomer.getGender()).isEqualTo(Gender.valueOf(request.gender()));
+    }
+    @Test
+    void throwErrorWhenNotValidGenderWhenUpdatingCustomer() {
+        // Given
+        Integer id=1;
+        CustomerUpdateRequest request = new CustomerUpdateRequest(null, null, null, null, "FOO");
+        Customer customer = new Customer (id,"Jonh Doe","123","john@mail.com", 22, Gender.FEMALE);
+
+        // When
+        // Configuring behaviour of the Mock
+        Mockito.when(customerDAO.exitsCustomerWithId(id)).thenReturn(true);
+        Mockito.when(customerDAO.getCustomerById(id)).thenReturn(Optional.of(customer));
+
+        assertThatThrownBy(() -> underTest.updateCustomer(id,request))
+                .isInstanceOf(RequestValidationException.class)
+                .hasMessage("Gender does not have a valid format. Permitted values: %s"
+                        .formatted(Arrays.toString(Gender.values())));
+        Mockito.verify(customerDAO, Mockito.never()).updateCustomer(customer);
     }
     @Test
     void updateCustomerEmailFailsWhenExistingEmail() {
         // Given
         Integer id=1;
-        CustomerUpdateRequest request = new CustomerUpdateRequest(null, null, "foo@mail.com", null);
-        Customer customer = new Customer (id,"Jonh Doe","123","john@mail.com", 22);
+        CustomerUpdateRequest request = new CustomerUpdateRequest(null, null, "foo@mail.com", null, null);
+        Customer customer = new Customer (id,"Jonh Doe","123","john@mail.com", 22, Gender.FEMALE);
 
         // When
         // Configuring behaviour of the Mock
@@ -285,8 +331,8 @@ class CustomerServiceTest {
     void updateCustomerFailsWhenNotExistingId() {
         // Given
         Integer id=1;
-        CustomerUpdateRequest request = new CustomerUpdateRequest(null, null, "foo@mail.com", null);
-        Customer customer = new Customer (id,"Jonh Doe","123","john@mail.com", 22);
+        CustomerUpdateRequest request = new CustomerUpdateRequest(null, null, "foo@mail.com", null, null);
+        Customer customer = new Customer (id,"Jonh Doe","123","john@mail.com", 22, Gender.FEMALE);
 
         // When
         // Configuring behaviour of the Mock
@@ -302,8 +348,8 @@ class CustomerServiceTest {
     void updateCustomerWithoutChanges() {
         // Given
         Integer id=1;
-        CustomerUpdateRequest request = new CustomerUpdateRequest("John Doe", "123", "john@mail.com", 22);
-        Customer customer = new Customer (id,"John Doe","123","john@mail.com", 22);
+        CustomerUpdateRequest request = new CustomerUpdateRequest("John Doe", "123", "john@mail.com", 22, "FEMALE");
+        Customer customer = new Customer (id,"John Doe","123","john@mail.com", 22, Gender.FEMALE);
 
         // When
         // Configuring behaviour of the Mock

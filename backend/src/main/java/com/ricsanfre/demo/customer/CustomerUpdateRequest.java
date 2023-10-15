@@ -4,6 +4,7 @@ public record CustomerUpdateRequest(
         String name,
         String password,
         String email,
-        Integer age
+        Integer age,
+        String gender
 ) {
 }
