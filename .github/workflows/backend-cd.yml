@@ -38,6 +38,11 @@ jobs:
     steps:
       # Checkout code
       - uses: actions/checkout@v4
+      - name: Slack commit message and SHA
+        run: >
+          curl -X POST -H 'Content-type: application/json' 
+          --data '{"text":"github: https://github.com/ricsanfre/java-springboot-app/commit/${{github.sha}} - ${{github.event.head_commit.message}}"}' 
+          ${{ secrets.SLACK_WEBHOOK_URL }}
       - name: Send Slack Message (Start deployment)
         run: >
           curl -X POST -H 'Content-type: application/json' 
