@@ -10,8 +10,11 @@ import {
     Button,
     useColorModeValue, Tag,
 } from '@chakra-ui/react'
+import DeleteAlertDialog from "./DeleteAlertDialog.jsx";
 
-export default function CardWithImage({id, name, email, age, gender}) {
+
+
+export default function CardWithImage({id, name, email, age, gender, fetchCustomers}) {
     const menOrWomen = gender === "MALE" ? "men" : "women"
     return (
         <Center py={6}>
@@ -51,6 +54,7 @@ export default function CardWithImage({id, name, email, age, gender}) {
                         </Heading>
                         <Text color={'gray.500'}>{email}</Text>
                         <Text color={'gray.500'}>Age: {age} | {gender}</Text>
+                        <DeleteAlertDialog fetchCustomers={fetchCustomers} id={id} />
                     </Stack>
                 </Box>
             </Box>

@@ -91,6 +91,7 @@ const CreateCustomerForm = ({fetchCustomers}) => {
                             )
                         }).finally( ()=>{
                             setSubmitting(false);
+                            onClose();
                     })
                 }}
             >
