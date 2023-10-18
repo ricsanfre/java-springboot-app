@@ -9,11 +9,12 @@ import {
     useDisclosure
 } from "@chakra-ui/react";
 import CreateCustomerForm from "./CreateCustomerForm.jsx";
+import UpdateCustomerForm from "./UpdateCustomerForm.jsx";
 
 const AddIcon = () => "+"
 const CloseIcon = () => "x"
 
-const DrawerForm = ({fetchCustomers}) => {
+const UpdateDrawerForm = ({ initialValues, fetchCustomers}) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     return (
         <>
@@ -22,15 +23,18 @@ const DrawerForm = ({fetchCustomers}) => {
                 colorScheme={"teal"}
                 onClick={onOpen}
             >
-                Create Customer
+                Update Customer
             </Button>
             <Drawer isOpen={isOpen} onClose={onClose} size={"xl"}>
                 <DrawerOverlay />
                 <DrawerContent>
                     <DrawerCloseButton />
-                    <DrawerHeader>Create your account</DrawerHeader>
+                    <DrawerHeader>Update your account</DrawerHeader>
                     <DrawerBody>
-                        <CreateCustomerForm fetchCustomers={fetchCustomers}/>
+                        <UpdateCustomerForm
+                            initialValues={initialValues}
+                            fetchCustomers={fetchCustomers}
+                        />
                     </DrawerBody>
 
                     <DrawerFooter>
@@ -48,4 +52,4 @@ const DrawerForm = ({fetchCustomers}) => {
     )
 };
 
-export default DrawerForm;
+export default UpdateDrawerForm;

@@ -11,6 +11,7 @@ import {
     useColorModeValue, Tag,
 } from '@chakra-ui/react'
 import DeleteAlertDialog from "./DeleteAlertDialog.jsx";
+import UpdateDrawerForm from "./UpdateDrawerForm.jsx";
 
 
 
@@ -54,6 +55,9 @@ export default function CardWithImage({id, name, email, age, gender, fetchCustom
                         </Heading>
                         <Text color={'gray.500'}>{email}</Text>
                         <Text color={'gray.500'}>Age: {age} | {gender}</Text>
+                        <UpdateDrawerForm initialValues={{id, name, email, age, gender}}
+                                          fetchCustomers={fetchCustomers}
+                        />
                         <DeleteAlertDialog fetchCustomers={fetchCustomers} id={id} />
                     </Stack>
                 </Box>
