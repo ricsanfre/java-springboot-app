@@ -13,8 +13,8 @@ services:
     networks:
       - db
     restart: unless-stopped
-  demo-app:
-    container_name: demo-app
+  backend-demo-app:
+    container_name: backend-demo-app
     image: ricsanfre/spring-boot-demo-api
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/customer
@@ -28,6 +28,18 @@ services:
     # Not needed to pass JDBC URL because set environment variable.
     # command:
     #  - --spring.datasource.url=$POSTGRES_URL
+  react-frontend-demo-app:
+    container_name: react-frontend-demo-app
+    image: ricsanfre/spring-boot-demo-react
+    build:
+      context: frontend/react
+      args:
+        - BACKEND_URL=http://localhost:8080
+    depends_on:
+      - backend-demo-app
+    ports:
+      - "3000:5173"
+    restart: unless-stopped
 networks:
   db:
     driver: bridge
