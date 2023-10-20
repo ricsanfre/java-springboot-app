@@ -16,6 +16,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Slack commit message and SHA
+        run: >
+          curl -X POST -H 'Content-type: application/json' 
+          --data '{"text":"github: https://github.com/ricsanfre/java-springboot-app/commit/${{github.sha}} - ${{github.event.head_commit.message}}"}' 
+          ${{ secrets.SLACK_WEBHOOK_URL }}
+      - name: Send Slack Message (Start deployment)
+        run: >
+          curl -X POST -H 'Content-type: application/json' 
+          --data '{"text":":aws: Starting new deployment of frontend"}' 
+          ${{ secrets.SLACK_WEBHOOK_URL }}
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
@@ -27,6 +38,16 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      # Set build number
+      - name: Set build number
+        id: build-number
+        run: echo BUILD_NUMBER=`date '+%d.%m.%Y.%H.%M.%S'` >> $GITHUB_OUTPUT
+
+      - name: Send Slack Message (Start Building)
+        run: >
+          curl -X POST -H 'Content-type: application/json' 
+          --data '{"text":":docker: Building docker image: ricsanfre/spring-boot-demo-react:${{steps.build-number.outputs.BUILD_NUMBER}} "}' 
+          ${{ secrets.SLACK_WEBHOOK_URL }}
 
       - name: Build and push images.
         uses: docker/build-push-action@v5
@@ -37,4 +58,64 @@ jobs:
             BACKEND_URL=${{ secrets.EB_ENVIRONMENT_URL }}:8080
           platforms: linux/amd64, linux/arm64
           push: true
-          tags: ricsanfre/spring-boot-demo-react:latest
+          tags: ricsanfre/spring-boot-demo-react:${{steps.build-number.outputs.BUILD_NUMBER}}
+
+      - name: Send Slack Message (Push Image)
+        run: >
+          curl -X POST -H 'Content-type: application/json' 
+          --data '{"text":":docker: Image tag ricsanfe/spring-boot-demo-react:${{steps.build-number.outputs.BUILD_NUMBER}} has been pushed to DockerHub"}' 
+          ${{ secrets.SLACK_WEBHOOK_URL }}
+
+        # sed -i -E 's_(ricsanfre/spring-boot-demo-api:)([^"]*)_\1'${BUILD_NUMBER}'_' Dockerrun.aws.json
+      - name: Update Dockerrun.aws.json with Build number
+        run: |
+          echo "Dockerrun.aws.json before updating"
+          cat Dockerrun.aws.json
+          sed -i -E 's_(ricsanfre/spring-boot-demo-react:)([^"]*)_\1'${{steps.build-number.outputs.BUILD_NUMBER}}'_' Dockerrun.aws.json
+          echo "Dockerrun.aws.json after updating"
+          cat Dockerrun.aws.json
+
+      - name: Send Slack Message (Push Image)
+        run: >
+          curl -X POST -H 'Content-type: application/json' 
+          --data '{"text":" :aws: Starting deployment with Elastic Beanstalk"}' 
+          ${{ secrets.SLACK_WEBHOOK_URL }} 
+
+      - name: Deploy to AWS Elastic Beanstalk
+        uses: einaregilsson/beanstalk-deploy@v21
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: ${{ secrets.EB_APPLICATION_NAME }}
+          environment_name: ${{ secrets.EB_ENVIRONMENT_NAME }}
+          version_label: ${{ steps.build-number.outputs.BUILD_NUMBER }}
+          region: ${{ secrets.AWS_REGION }}
+          deployment_package: Dockerrun.aws.json
+          version_description: ${{github.SHA}}
+
+      - name: Send Slack Message (Github committing)
+        run: >
+          curl -X POST -H 'Content-type: application/json' 
+          --data '{"text":" :github: Committing to repo ${{ github.repositoryUrl }}"}' 
+          ${{ secrets.SLACK_WEBHOOK_URL }} 
+
+      - name: Docker commit Dockerrun.aws.json
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add Dockerrun.aws.json
+          git commit -m "Update Dockerrun.aws.json docker image with new tag ${{ steps.build-number.outputs.BUILD_NUMBER }}"
+          git push
+
+      - name: Send Slack Message (End)
+        run: >
+          curl -X POST -H 'Content-type: application/json' 
+          --data '{"text":" :among-us-party: Deployment completed: ${{ secrets.EB_ENVIRONMENT_URL }}"}' 
+          ${{ secrets.SLACK_WEBHOOK_URL }} 
+
+      - name: Send Slack Message (Status)
+        if: always()
+        run: >
+          curl -X POST -H 'Content-type: application/json' 
+          --data '{"text":"Job Finished with status: ${{ job.status }}"}' 
+          ${{ secrets.SLACK_WEBHOOK_URL }}
