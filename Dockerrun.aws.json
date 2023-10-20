@@ -25,7 +25,7 @@
     },
     {
       "name": "demo-app-react",
-      "image": "ricsanfre/spring-boot-demo-react:latest",
+      "image": "ricsanfre/spring-boot-demo-react:20.10.2023.17.36.49",
       "essential": true,
       "memory": 256,
       "portMappings": [
