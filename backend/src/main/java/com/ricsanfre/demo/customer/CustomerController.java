@@ -1,6 +1,9 @@
 package com.ricsanfre.demo.customer;
 
+import com.ricsanfre.demo.jwt.JWTUtil;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,8 +12,11 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
-    public CustomerController(CustomerService customerService) {
+    private final JWTUtil jwtUtil;
+
+    public CustomerController(CustomerService customerService, JWTUtil jwtUtil) {
         this.customerService = customerService;
+        this.jwtUtil = jwtUtil;
     }
 
     // @RequestMapping(path = "api/v1/customer", method = RequestMethod.GET)
@@ -28,9 +34,14 @@ public class CustomerController {
     }
 
     @PostMapping("api/v1/customer")
-    public void registerCustomer(@RequestBody @Valid CustomerRegistrationRequest request) {
+    public ResponseEntity<?> registerCustomer(@RequestBody @Valid CustomerRegistrationRequest request) {
         customerService.addCustomer(request);
-
+        // Adding JWT Token to response headers
+        String jwtToken = jwtUtil.issueToken(request.getEmail(), "ROLE_USER");
+        return ResponseEntity
+                .ok()
+                .header(HttpHeaders.AUTHORIZATION, jwtToken)
+                .build();
     }
     @DeleteMapping("api/v1/customer/{id}")
     public void deleteCustomer(@PathVariable("id") Integer id) {

@@ -7,6 +7,7 @@ import org.apache.commons.lang3.EnumUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -21,8 +22,13 @@ public class CustomerService {
     // DAO
     private final CustomerDAO customerDAO;
 
-    public CustomerService(@Qualifier("jdbc") CustomerDAO customerDAO) {
+    private final PasswordEncoder passwordEncoder;
+
+    public CustomerService(
+            @Qualifier("jpa") CustomerDAO customerDAO,
+            PasswordEncoder passwordEncoder) {
         this.customerDAO = customerDAO;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<Customer> getAllCustomers() {
@@ -31,34 +37,35 @@ public class CustomerService {
     }
 
     public Customer getCustomerById(Integer id) {
-        LOGGER.info("getCustomerByID started: id [{}]",id);
+        LOGGER.info("getCustomerByID started: id [{}]", id);
         return customerDAO.getCustomerById(id)
                 .orElseThrow(
                         () -> {
                             ResourceNotFoundException resourceNotFoundException =
                                     new ResourceNotFoundException("customer with id [%s] is not found".formatted(id));
-                            LOGGER.error("getCustomerById(): error getting customer {}", id,resourceNotFoundException );
+                            LOGGER.error("getCustomerById(): error getting customer {}", id, resourceNotFoundException);
                             return resourceNotFoundException;
                         }
                 );
     }
 
     public Customer getCustomerByEmail(String email) {
-        LOGGER.info("getCustomerByEmail started: email [{}]",email);
+        LOGGER.info("getCustomerByEmail started: email [{}]", email);
         return customerDAO.getCustomerByEmail(email)
                 .orElseThrow(
                         () -> {
                             ResourceNotFoundException resourceNotFoundException =
                                     new ResourceNotFoundException("customer with email [%s] is not found".formatted(email));
-                            LOGGER.error("getCustomerById(): error getting customer {}", email,resourceNotFoundException );
+                            LOGGER.error("getCustomerById(): error getting customer {}", email, resourceNotFoundException);
                             return resourceNotFoundException;
                         }
                 );
     }
+
     public void addCustomer(CustomerRegistrationRequest customerRegistrationRequest) {
 
         // Check gender is valid value
-        if(!EnumUtils.isValidEnum(Gender.class,customerRegistrationRequest.getGender())) {
+        if (!EnumUtils.isValidEnum(Gender.class, customerRegistrationRequest.getGender())) {
             throw new RequestValidationException("Gender does not have a valid format. Permitted values: %s"
                     .formatted(Arrays.toString(Gender.values())));
         }
@@ -70,8 +77,10 @@ public class CustomerService {
                     .formatted(customerRegistrationRequest.getEmail()));
         }
         customerDAO.insertCustomer(
-                new Customer(customerRegistrationRequest.getName(),
-                        customerRegistrationRequest.getPassword(), customerRegistrationRequest.getEmail(),
+                new Customer(
+                        customerRegistrationRequest.getName(),
+                        passwordEncoder.encode(customerRegistrationRequest.getPassword()),
+                        customerRegistrationRequest.getEmail(),
                         customerRegistrationRequest.getAge(),
                         Gender.valueOf(customerRegistrationRequest.getGender()))
         );
@@ -120,7 +129,7 @@ public class CustomerService {
         }
         if (updateRequest.gender() != null) {
             // Check gender is valid value
-            if(!EnumUtils.isValidEnum(Gender.class,updateRequest.gender())) {
+            if (!EnumUtils.isValidEnum(Gender.class, updateRequest.gender())) {
                 throw new RequestValidationException("Gender does not have a valid format. Permitted values: %s"
                         .formatted(Arrays.toString(Gender.values())));
             } else if (!customer.getGender().name().equals(updateRequest.gender())) {

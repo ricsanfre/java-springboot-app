@@ -5,6 +5,7 @@ import com.github.javafaker.Name;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Random;
 
@@ -18,7 +19,9 @@ public class CustomerConfiguration {
 
     // CommandLineRunner Executing code on startup
     @Bean
-    CommandLineRunner customerDBInitialLoad(CustomerRepository customerRepository) {
+    CommandLineRunner customerDBInitialLoad(
+            CustomerRepository customerRepository,
+            PasswordEncoder passwordEncoder) {
         return args -> {
             // Insert some random Customer record into database on startup
             // Using JavaFaker and Random
@@ -30,9 +33,9 @@ public class CustomerConfiguration {
 
             Customer customer = new Customer(
                     firstName + " " + lastName,
-                    faker.internet().password(),
+                    passwordEncoder.encode(faker.internet().password()),
                     firstName.toLowerCase() + "." + lastName.toLowerCase() + "@example.com",
-                    random.nextInt(16,99),
+                    random.nextInt(16, 99),
                     Gender.randomGender());
             customerRepository.save(customer);
         };

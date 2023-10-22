@@ -10,6 +10,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -22,6 +23,9 @@ import static org.mockito.ArgumentMatchers.any;
 class CustomerServiceTest {
 
     private CustomerService underTest;
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
     @Mock
     private CustomerDAO customerDAO;
     // Not needed with @ExtendWith annotation
@@ -30,7 +34,7 @@ class CustomerServiceTest {
     void setUp() {
         // Not needed with @ExtendWith annotation
         // autoCloseable = MockitoAnnotations.openMocks(this);
-        underTest = new CustomerService(customerDAO);
+        underTest = new CustomerService(customerDAO, passwordEncoder);
     }
 // Not needed with @ExtendWith annotation
 //    @AfterEach
@@ -100,13 +104,20 @@ class CustomerServiceTest {
         // Given
         Integer id=1;
         String email = "foo@mail.com";
-        Customer customer = new Customer("foo","123", email,18, Gender.FEMALE);
+        String password="password";
+        Customer customer = new Customer("foo",password, email,18, Gender.FEMALE);
+
         Mockito.when(customerDAO.exitsCustomerWithEmail(email)).thenReturn(false);
+
+        String passwordHash = String.valueOf(password.hashCode());
+
+        Mockito.when(passwordEncoder.encode(password)).thenReturn(passwordHash);
+
         // When
         CustomerRegistrationRequest request =
                 new CustomerRegistrationRequest(
                         "foo",
-                        "123",
+                        password,
                         email,
                         21,
                         "FEMALE");
@@ -119,7 +130,7 @@ class CustomerServiceTest {
         assertThat(capturedCustomer.getId()).isNull();
         assertThat(capturedCustomer.getEmail()).isEqualTo(request.getEmail());
         assertThat(capturedCustomer.getName()).isEqualTo(request.getName());
-        assertThat(capturedCustomer.getPassword()).isEqualTo(request.getPassword());
+        assertThat(capturedCustomer.getPassword()).isEqualTo(passwordHash);
         assertThat(capturedCustomer.getAge()).isEqualTo(request.getAge());
         assertThat(capturedCustomer.getGender()).isEqualTo(customer.getGender());
     }

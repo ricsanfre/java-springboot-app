@@ -22,6 +22,7 @@
         <docker.username>ricsanfre</docker.username>
         <docker.image.name>spring-boot-demo-api</docker.image.name>
         <docker.image.tag/>
+        <jsonwebtoken.version>0.12.3</jsonwebtoken.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -167,6 +168,39 @@
             <artifactId>javafaker</artifactId>
             <version>1.0.2</version>
         </dependency>
+
+        <!-- Spring Security https://spring.io/projects/spring-security
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+        </dependency>
+
+        <!-- JWT libraries https://jwt.io/libraries?language=Java
+             Java JWT library https://github.com/jwtk/jjwt
+        -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>${jsonwebtoken.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>${jsonwebtoken.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId> <!-- or jjwt-gson if Gson is preferred -->
+            <version>${jsonwebtoken.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
 
     </dependencies>
 
