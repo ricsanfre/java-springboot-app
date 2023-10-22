@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerService {
@@ -22,23 +23,31 @@ public class CustomerService {
     // DAO
     private final CustomerDAO customerDAO;
 
+    private final CustomerDTOMapper customerDTOMapper;
+
     private final PasswordEncoder passwordEncoder;
 
     public CustomerService(
             @Qualifier("jpa") CustomerDAO customerDAO,
+            CustomerDTOMapper customerDTOMapper,
             PasswordEncoder passwordEncoder) {
         this.customerDAO = customerDAO;
+        this.customerDTOMapper = customerDTOMapper;
         this.passwordEncoder = passwordEncoder;
     }
 
-    public List<Customer> getAllCustomers() {
+    public List<CustomerDTO> getAllCustomers() {
         LOGGER.info("getAllCustomers() starting");
-        return customerDAO.getAllCustomers();
+        return customerDAO.getAllCustomers()
+                .stream()
+                .map(customerDTOMapper)
+                .collect(Collectors.toList());
     }
 
-    public Customer getCustomerById(Integer id) {
+    public CustomerDTO getCustomerById(Integer id) {
         LOGGER.info("getCustomerByID started: id [{}]", id);
         return customerDAO.getCustomerById(id)
+                .map(customerDTOMapper)
                 .orElseThrow(
                         () -> {
                             ResourceNotFoundException resourceNotFoundException =
@@ -49,9 +58,10 @@ public class CustomerService {
                 );
     }
 
-    public Customer getCustomerByEmail(String email) {
+    public CustomerDTO getCustomerByEmail(String email) {
         LOGGER.info("getCustomerByEmail started: email [{}]", email);
         return customerDAO.getCustomerByEmail(email)
+                .map(customerDTOMapper)
                 .orElseThrow(
                         () -> {
                             ResourceNotFoundException resourceNotFoundException =
@@ -101,7 +111,18 @@ public class CustomerService {
             throw new ResourceNotFoundException("Customer with id [%s] not found".formatted(id));
         }
         // Check if there is changes
-        Customer customer = getCustomerById(id);
+        //Customer customer = getCustomerById(id);
+
+        Customer customer = customerDAO.getCustomerById(id)
+                .orElseThrow(
+                        () -> {
+                            ResourceNotFoundException resourceNotFoundException =
+                                    new ResourceNotFoundException("customer with id [%s] is not found".formatted(id));
+                            LOGGER.error("getCustomerById(): error getting customer {}", id, resourceNotFoundException);
+                            return resourceNotFoundException;
+                        }
+                );
+
         boolean somethingChange = false;
         // some of the fields are updated
         if (updateRequest.name() != null &&

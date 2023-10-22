@@ -21,15 +21,15 @@ public class CustomerController {
 
     // @RequestMapping(path = "api/v1/customer", method = RequestMethod.GET)
     @GetMapping("api/v1/customer")
-    public List<Customer> getCustomers() {
+    public List<CustomerDTO> getCustomers() {
         return customerService.getAllCustomers();
     }
     @GetMapping("api/v1/customer/{id}")
-    public Customer getCustomer(@PathVariable("id") Integer id) {
+    public CustomerDTO getCustomer(@PathVariable("id") Integer id) {
         return customerService.getCustomerById(id);
     }
     @GetMapping("api/v1/findCustomer")
-    public Customer getCustomerByEmail(@RequestParam(value = "email") String email) {
+    public CustomerDTO getCustomerByEmail(@RequestParam(value = "email") String email) {
         return customerService.getCustomerByEmail(email);
     }
 

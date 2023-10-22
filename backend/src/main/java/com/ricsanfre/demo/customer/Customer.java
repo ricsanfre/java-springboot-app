@@ -1,8 +1,10 @@
 package com.ricsanfre.demo.customer;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -100,9 +102,6 @@ public class Customer implements UserDetails {
         this.email = email;
     }
 
-    //Ignore in JSON responses
-
-    @JsonIgnore
     @Override
     public String getPassword() {
         return password;

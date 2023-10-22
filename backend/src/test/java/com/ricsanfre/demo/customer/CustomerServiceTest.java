@@ -28,13 +28,15 @@ class CustomerServiceTest {
     private PasswordEncoder passwordEncoder;
     @Mock
     private CustomerDAO customerDAO;
+
+    private final CustomerDTOMapper customerDTOMapper = new CustomerDTOMapper();
     // Not needed with @ExtendWith annotation
     // private AutoCloseable autoCloseable;
     @BeforeEach
     void setUp() {
         // Not needed with @ExtendWith annotation
         // autoCloseable = MockitoAnnotations.openMocks(this);
-        underTest = new CustomerService(customerDAO, passwordEncoder);
+        underTest = new CustomerService(customerDAO, customerDTOMapper, passwordEncoder);
     }
 // Not needed with @ExtendWith annotation
 //    @AfterEach
@@ -57,10 +59,12 @@ class CustomerServiceTest {
         Customer customer = new Customer("foo","123","foo@mail.com",18,Gender.FEMALE);
         // Configuring behaviour of the Mock
         Mockito.when(customerDAO.getCustomerById(id)).thenReturn(Optional.of(customer));
+
+        CustomerDTO expected = customerDTOMapper.apply(customer);
         // When
-        Customer actual = underTest.getCustomerById(id);
+        CustomerDTO actual = underTest.getCustomerById(id);
         // Then
-        assertThat(actual).isEqualTo(customer);
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
@@ -82,10 +86,13 @@ class CustomerServiceTest {
         Customer customer = new Customer(1,"foo","123","foo@mail.com",18, Gender.FEMALE);
         // Configuring behaviour of the Mock
         Mockito.when(customerDAO.getCustomerByEmail(email)).thenReturn(Optional.of(customer));
+
+        CustomerDTO expected = customerDTOMapper.apply(customer);
+
         // When
-        Customer actual = underTest.getCustomerByEmail(email);
+        CustomerDTO actual = underTest.getCustomerByEmail(email);
         // Then
-        assertThat(actual).isEqualTo(customer);
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
