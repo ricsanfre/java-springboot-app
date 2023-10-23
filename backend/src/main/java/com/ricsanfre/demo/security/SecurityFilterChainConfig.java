@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -39,6 +40,8 @@ public class SecurityFilterChainConfig {
                 https://docs.spring.io/spring-security/reference/servlet/exploits/csrf.html#disable-csrf
                 */
                 .csrf((csrf) -> csrf.disable())
+                // Cors config
+                .cors(Customizer.withDefaults())
                 // Authorize registerCustomer API without requiring authentication
                 .authorizeHttpRequests((authorize) ->
                         authorize.requestMatchers(HttpMethod.POST, "/api/v1/customer")
