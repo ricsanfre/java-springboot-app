@@ -11,6 +11,7 @@ import java.security.PublicKey;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -72,5 +73,9 @@ public class JWTUtil {
     private boolean isTokenExpired(String jwt) {
         Date today = Date.from(Instant.now());
         return getClaims(jwt).getExpiration().before(today);
+    }
+
+    public String issueToken(String subject, List<String> roles) {
+        return issueToken(subject, Map.of("scopes", roles));
     }
 }

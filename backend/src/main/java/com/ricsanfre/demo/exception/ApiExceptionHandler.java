@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -64,5 +65,31 @@ public class ApiExceptionHandler {
                 ZonedDateTime.now()
         );
         return new ResponseEntity<>(apiErrorResponse, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(value = BadCredentialsException.class)
+    public ResponseEntity<Object> handleInsufficientBadCredentialsException(
+            BadCredentialsException e,
+            HttpServletRequest request) {
+        ApiErrorResponse apiErrorResponse = new ApiErrorResponse(
+                request.getRequestURI(),
+                e.getMessage(),
+                HttpStatus.UNAUTHORIZED,
+                ZonedDateTime.now()
+        );
+        return new ResponseEntity<>(apiErrorResponse, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(value = Exception.class)
+    public ResponseEntity<Object> handleException(
+            Exception e,
+            HttpServletRequest request) {
+        ApiErrorResponse apiErrorResponse = new ApiErrorResponse(
+                request.getRequestURI(),
+                e.getMessage(),
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                ZonedDateTime.now()
+        );
+        return new ResponseEntity<>(apiErrorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

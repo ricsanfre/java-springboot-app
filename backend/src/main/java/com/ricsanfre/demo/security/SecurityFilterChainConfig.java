@@ -44,7 +44,7 @@ public class SecurityFilterChainConfig {
                 .cors(Customizer.withDefaults())
                 // Authorize registerCustomer API without requiring authentication
                 .authorizeHttpRequests((authorize) ->
-                        authorize.requestMatchers(HttpMethod.POST, "/api/v1/customer")
+                        authorize.requestMatchers(HttpMethod.POST, "/api/v1/customer","/api/v1/auth/login")
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated()
