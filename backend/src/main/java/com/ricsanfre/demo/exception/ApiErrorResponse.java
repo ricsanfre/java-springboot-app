@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import java.time.ZonedDateTime;
 
 public record ApiErrorResponse(
+        String path,
         String message,
         HttpStatus httpStatus,
         ZonedDateTime timestamp) {

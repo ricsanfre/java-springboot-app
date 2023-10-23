@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -19,9 +20,14 @@ public class SecurityFilterChainConfig {
 
     private final JWTAuthenticationFilter jwtAuthenticationFilter;
 
-    public SecurityFilterChainConfig(AuthenticationProvider authenticationProvider, JWTAuthenticationFilter jwtAuthenticationFilter) {
+    private final AuthenticationEntryPoint authenticationEntryPoint;
+
+    public SecurityFilterChainConfig(AuthenticationProvider authenticationProvider,
+                                     JWTAuthenticationFilter jwtAuthenticationFilter,
+                                     AuthenticationEntryPoint authenticationEntryPoint) {
         this.authenticationProvider = authenticationProvider;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.authenticationEntryPoint = authenticationEntryPoint;
     }
 
     @Bean
@@ -46,7 +52,9 @@ public class SecurityFilterChainConfig {
                 )
                 .authenticationProvider(authenticationProvider)
                 // Add JWT Filter before UsernamePasswordAuthenticationFilter (used for form based authentication)
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling((httpSecurityExceptionHandlingConfigurer) ->
+                        httpSecurityExceptionHandlingConfigurer.authenticationEntryPoint(authenticationEntryPoint));
         return http.build();
     }
 }

@@ -5,6 +5,9 @@ import org.springframework.stereotype.Service;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+// DTO mapper
+// Manual coding alternative to MapStruct https://mapstruct.org/
+
 @Service
 public class CustomerDTOMapper implements Function<Customer,CustomerDTO> {
 
