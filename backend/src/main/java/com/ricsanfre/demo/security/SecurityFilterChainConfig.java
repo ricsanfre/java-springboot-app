@@ -43,12 +43,13 @@ public class SecurityFilterChainConfig {
                 // Cors config
                 .cors(Customizer.withDefaults())
                 // Authorize registerCustomer API without requiring authentication
-                .authorizeHttpRequests((authorize) ->
-                        authorize.requestMatchers(HttpMethod.POST, "/api/v1/customer","/api/v1/auth/login")
-                                .permitAll()
-                                .anyRequest()
-                                .authenticated()
-                )
+                .authorizeHttpRequests((authorize) -> {
+                    authorize.requestMatchers(HttpMethod.POST, "/api/v1/customer", "/api/v1/auth/login")
+                            .permitAll();
+                    authorize.requestMatchers(HttpMethod.GET, "/ping")
+                            .permitAll();
+                    authorize.anyRequest().authenticated();
+                })
                 // Specify Stateless sessions. Each request comes with authentication JWT token
                 .sessionManagement((session) ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
