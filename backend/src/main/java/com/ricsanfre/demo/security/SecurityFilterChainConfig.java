@@ -46,7 +46,7 @@ public class SecurityFilterChainConfig {
                 .authorizeHttpRequests((authorize) -> {
                     authorize.requestMatchers(HttpMethod.POST, "/api/v1/customer", "/api/v1/auth/login")
                             .permitAll();
-                    authorize.requestMatchers(HttpMethod.GET, "/ping")
+                    authorize.requestMatchers(HttpMethod.GET, "/ping", "/actuator/**")
                             .permitAll();
                     authorize.anyRequest().authenticated();
                 })
