@@ -8,7 +8,7 @@ import {
     Heading,
     Input,
     Stack,
-    Image, Box, Alert, AlertIcon,
+    Image, Box, Alert, AlertIcon, Link,
 } from '@chakra-ui/react'
 import {Form, Formik, useField} from "formik";
 
@@ -16,7 +16,9 @@ import * as Yup from 'yup';
 import {useAuth} from "../context/AuthContext.jsx";
 import {errorNotification} from "../../services/notification.js";
 import {useNavigate} from "react-router-dom";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
+import CreateCustomerForm from "../customer/CreateCustomerForm.jsx";
+import {jwtDecode} from "jwt-decode";
 
 const MyTextInput = ({ label, ...props }) => {
     // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
@@ -108,7 +110,7 @@ const LoginForm = () => {
     
 }
 
-const Login = () => {
+const Wrapper = ({title, children}) => {
 
     const { customer } = useAuth();
     const navigate= useNavigate();
@@ -124,8 +126,8 @@ const Login = () => {
         <Stack minH={'100vh'} direction={{ base: 'column', md: 'row' }}>
             <Flex p={8} flex={1} align={'center'} justify={'center'}>
                 <Stack spacing={4} w={'full'} maxW={'md'}>
-                    <Heading fontSize={'2xl'} mb={15}>Sign in to your account</Heading>
-                    <LoginForm />
+                    <Heading fontSize={'2xl'} mb={15}>{title}</Heading>
+                    {children}
                 </Stack>
             </Flex>
             <Flex flex={1}>
@@ -139,6 +141,38 @@ const Login = () => {
             </Flex>
         </Stack>
     )
+}
+
+
+const Login = () => {
+
+    return (
+        <Wrapper title={"Sign in to your account"}>
+            <LoginForm />
+            <Link color={"blue.500"} href={"/register"}>
+                Do not have an account? Sign-up here
+            </Link>
+        </Wrapper>
+    );
+}
+
+
+export const Register = () => {
+    const {customer, setCustomerFromToken} = useAuth();
+    const navigate = useNavigate();
+    return (
+        <Wrapper title={"New customer registration"}>
+            <CreateCustomerForm onSuccess={(token)=>{
+                // save token into local storage
+                localStorage.setItem("access_token", token);
+                setCustomerFromToken();
+                navigate("/dashboard")
+            }}/>
+            <Link color={"blue.500"} href={"/"}>
+                Have an account? Log in here
+            </Link>
+        </Wrapper>
+    );
 }
 
 export default Login;

@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 import {Alert, AlertIcon, Box, Button, FormLabel, Input, Select, Stack} from "@chakra-ui/react";
 import {saveCustomer} from "../../services/client.js";
 import {errorNotification, successNotification} from "../../services/notification.js";
+import {useNavigate} from "react-router-dom";
 
 const MyTextInput = ({ label, ...props }) => {
     // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
@@ -42,7 +43,9 @@ const MySelect = ({ label, ...props }) => {
 };
 
 // And now we can use these
-const CreateCustomerForm = ({fetchCustomers}) => {
+const CreateCustomerForm = ({onSuccess}) => {
+
+    const navigate = useNavigate();
     return (
         <>
             <Formik
@@ -83,7 +86,8 @@ const CreateCustomerForm = ({fetchCustomers}) => {
                             successNotification(
                                 "Customer Saved",
                                 `${values.name} was successfully added`);
-                            fetchCustomers();
+                            //fetchCustomers();
+                            onSuccess(res.headers["authorization"]);
                         }).catch(err => {
                             console.log(err);
                             errorNotification(
