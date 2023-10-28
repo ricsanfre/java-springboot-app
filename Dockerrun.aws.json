@@ -8,7 +8,7 @@
       "memory": 512,
       "portMappings": [
         {
-          "hostPort": 8080,
+          "hostPort": 80,
           "containerPort": 8080
         }
       ],
@@ -20,18 +20,6 @@
         {
           "name": "SPRING_DATASOURCE_PASSWORD",
           "value": "password"
-        }
-      ]
-    },
-    {
-      "name": "demo-app-react",
-      "image": "ricsanfre/spring-boot-demo-react:28.10.2023.10.46.29",
-      "essential": true,
-      "memory": 256,
-      "portMappings": [
-        {
-          "hostPort": 80,
-          "containerPort": 5173
         }
       ]
     }
