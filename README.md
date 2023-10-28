@@ -6,8 +6,12 @@
 
 ## Frontend
 
-[React](https://react.dev/) application using [Chakra UI library](https://chakra-ui.com/)
-
+[React](https://react.dev/) application using:
+- [Chakra UI library](https://chakra-ui.com/)
+- [Chakra Templates](https://chakra-templates.dev/)
+- [Formik](https://formik.org/)
+- [Axios](https://axios-http.com/)
+- [React Router](https://reactrouter.com/)
 
 ## Preparing Dev Environment
 
@@ -31,7 +35,11 @@
   npm i @chakra-ui/react @emotion/react @emotion/styled framer-motion
   ```
    
+- Install React Router
 
+  ```
+  npm install react-router-dom localforage match-sorter sort-by
+  ```
 
 
 ## Start Application
