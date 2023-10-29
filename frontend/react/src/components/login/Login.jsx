@@ -65,7 +65,7 @@ const LoginForm = () => {
                 setSubmitting(true);
                 login(values).then(res => {
                     // navigate to dashboard
-                    navigate("/dashboard");
+                    navigate("/dashboard/customers");
                     console.log("Successfully logged in");
 
                 }).catch(err => {
@@ -118,7 +118,7 @@ const Wrapper = ({title, children}) => {
     // if customer exists, already logged in, navigate to dashboard
     useEffect(()=>{
         if (customer) {
-            navigate("/dashboard");
+            navigate("/dashboard/customers");
         }
     })
 
@@ -166,7 +166,7 @@ export const Register = () => {
                 // save token into local storage
                 localStorage.setItem("access_token", token);
                 setCustomerFromToken();
-                navigate("/dashboard")
+                navigate("/dashboard/customers")
             }}/>
             <Link color={"blue.500"} href={"/"}>
                 Have an account? Log in here

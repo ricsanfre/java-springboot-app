@@ -7,7 +7,7 @@ import CreateDrawerForm from "./components/customer/CreateDrawerForm.jsx";
 import {errorNotification} from "./services/notification.js";
 
 // Main App
-const App = () => {
+const Customer = () => {
 
     const [customers, setCustomers] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -77,4 +77,4 @@ const App = () => {
     )
 }
 
-export default App
+export default Customer

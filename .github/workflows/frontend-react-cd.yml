@@ -11,6 +11,8 @@ on:
 
 jobs:
   deploy:
+    # Disabling job
+    if: false
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
