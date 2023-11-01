@@ -114,6 +114,7 @@
         </dependency>
 
         <!-- Java Bean Validation with Hibernate Validator
+             https://docs.spring.io/spring-framework/reference/core/validation/beanvalidation.html
              @Valid, @NotNull
         -->
         <dependency>
@@ -145,6 +146,7 @@
         </dependency>
         <!--
         @ConfigurationProperties Reading configuration properties
+        https://docs.spring.io/spring-boot/docs/current/reference/html/configuration-metadata.html#appendix.configuration-metadata.annotation-processor
         -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -3,6 +3,7 @@ package com.ricsanfre.demo.infoapp;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
+// https://docs.spring.io/spring-boot/docs/current/reference/html/configuration-metadata.html#appendix.configuration-metadata.annotation-processor
 @Configuration
 @ConfigurationProperties(prefix = "info.app")
 public class InfoApp {
