@@ -17,9 +17,10 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {SidebarModule} from "primeng/sidebar";
 import { ManageCustomerComponent } from './components/manage-customer/manage-customer.component';
 import { LoginComponent } from './components/login/login.component';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {MessagesModule} from "primeng/messages";
 import {MessageModule} from "primeng/message";
+import {HttpInterceptorService} from "./services/interceptor/http-interceptor.service";
 
 @NgModule({
   declarations: [
@@ -46,7 +47,13 @@ import {MessageModule} from "primeng/message";
     MessagesModule,
     MessageModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpInterceptorService,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

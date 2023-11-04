@@ -14,13 +14,8 @@ export class CustomerService {
     private http: HttpClient
   ) { }
 
-  getAllCustomers(token: string): Observable<CustomerDTO[]> {
+  getAllCustomers(): Observable<CustomerDTO[]> {
     return this.http.get<CustomerDTO[]>(
-      this.customerUrl,
-      {
-        headers: {
-          'Authorization': 'Bearer ' + token
-        }
-      });
+      this.customerUrl);
   }
 }
