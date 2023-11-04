@@ -21,6 +21,9 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {MessagesModule} from "primeng/messages";
 import {MessageModule} from "primeng/message";
 import {HttpInterceptorService} from "./services/interceptor/http-interceptor.service";
+import { CustomerCardComponent } from './components/customer-card/customer-card.component';
+import {CardModule} from "primeng/card";
+import {BadgeModule} from "primeng/badge";
 
 @NgModule({
   declarations: [
@@ -31,6 +34,7 @@ import {HttpInterceptorService} from "./services/interceptor/http-interceptor.se
     HeaderBarComponent,
     ManageCustomerComponent,
     LoginComponent,
+    CustomerCardComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,7 +49,9 @@ import {HttpInterceptorService} from "./services/interceptor/http-interceptor.se
     SidebarModule,
     HttpClientModule,
     MessagesModule,
-    MessageModule
+    MessageModule,
+    CardModule,
+    BadgeModule
   ],
   providers: [
     {

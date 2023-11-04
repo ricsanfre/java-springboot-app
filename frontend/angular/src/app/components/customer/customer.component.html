@@ -23,8 +23,12 @@
         (click)="display = true"
       >
       </button>
-      <div *ngFor="let customer of customers">
-        {{ customer.name }}
+      <div>
+        <app-customer-card
+          *ngFor="let customer of customers"
+          [customer]= customer
+        >
+        </app-customer-card>
       </div>
     </div>
   </div>
