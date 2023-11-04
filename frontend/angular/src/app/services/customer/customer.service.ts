@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {CustomerDTO} from "../../models/customer-dto";
 import {environment} from "../../../environments/environment";
+import {CustomerRegistrationRequest} from "../../models/customer-registration-request";
 
 @Injectable({
   providedIn: 'root'
@@ -17,5 +18,9 @@ export class CustomerService {
   getAllCustomers(): Observable<CustomerDTO[]> {
     return this.http.get<CustomerDTO[]>(
       this.customerUrl);
+  }
+
+  registerCustomer(customerRegistrationRequest: CustomerRegistrationRequest): Observable<void> {
+    return this.http.post<void>(this.customerUrl, customerRegistrationRequest)
   }
 }
