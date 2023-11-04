@@ -17,6 +17,9 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {SidebarModule} from "primeng/sidebar";
 import { ManageCustomerComponent } from './components/manage-customer/manage-customer.component';
 import { LoginComponent } from './components/login/login.component';
+import {HttpClientModule} from "@angular/common/http";
+import {MessagesModule} from "primeng/messages";
+import {MessageModule} from "primeng/message";
 
 @NgModule({
   declarations: [
@@ -28,18 +31,21 @@ import { LoginComponent } from './components/login/login.component';
     ManageCustomerComponent,
     LoginComponent,
   ],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        AppRoutingModule,
-        FormsModule,
-        InputTextModule,
-        AvatarModule,
-        MenuModule,
-        ButtonModule,
-        RippleModule,
-        SidebarModule
-    ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    FormsModule,
+    InputTextModule,
+    AvatarModule,
+    MenuModule,
+    ButtonModule,
+    RippleModule,
+    SidebarModule,
+    HttpClientModule,
+    MessagesModule,
+    MessageModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

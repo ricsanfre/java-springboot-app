@@ -9,7 +9,12 @@
           shape="circle">
         </p-avatar>
         <h1>Sign in to your account</h1>
-
+        <p-message
+          severity="error"
+          [text]="errorMsg"
+          *ngIf="errorMsg"
+          styleClass="mb-2"
+        ></p-message>
         <div class="field">
           <label for="email">Email</label>
           <input
@@ -17,6 +22,7 @@
             pInputText
             type="email"
             class="w-full"
+            [(ngModel)]="authenticationRequest.username"
           >
         </div>
         <div class="field">
@@ -26,6 +32,7 @@
             pInputText
             type="password"
             class="w-full"
+            [(ngModel)]="authenticationRequest.password"
           >
         </div>
     </div>
@@ -33,6 +40,7 @@
         pButton
         label="Login"
         class="w-full"
+        (click)="login()"
       >
       </button>
       <button
