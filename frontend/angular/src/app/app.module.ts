@@ -27,6 +27,7 @@ import {BadgeModule} from "primeng/badge";
 import {ToastModule} from "primeng/toast";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {ConfirmDialogModule} from "primeng/confirmdialog";
+import { RegistrationComponent } from './components/registration/registration.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import {ConfirmDialogModule} from "primeng/confirmdialog";
     ManageCustomerComponent,
     LoginComponent,
     CustomerCardComponent,
+    RegistrationComponent,
   ],
     imports: [
         BrowserModule,
