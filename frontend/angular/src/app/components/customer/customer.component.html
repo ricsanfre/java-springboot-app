@@ -30,6 +30,7 @@
         <app-customer-card
           *ngFor="let customer of customers"
           [customer]= customer
+          (delete)="delete($event)"
         >
         </app-customer-card>
       </div>
@@ -37,6 +38,16 @@
   </div>
 </div>
 
+<p-confirmDialog
+  header="Confirm Delete"
+  icon="pi pi-exclamation-triangle"
+  acceptLabel="Delete"
+  acceptButtonStyleClass="p-button-danger"
+  acceptIcon="pi pi-trash"
+  rejectLabel="Cancel"
+
+>
+</p-confirmDialog>
 <p-toast position="bottom-center">
 
 </p-toast>
