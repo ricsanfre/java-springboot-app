@@ -142,6 +142,13 @@ Install Node JS using [Node Version Manager](https://github.com/nvm-sh/nvm)
   ng new angular
   ```
 
+- Install PrimeNG
+  ```
+  npm install primeng
+  npm install primeicons
+  npm install primeflex 
+  ```
+
 ## Build
 
 ### Backend

@@ -13,6 +13,7 @@ export class CustomerComponent implements OnInit {
   display: boolean = false;
   customers: CustomerDTO[] = [];
   customer: CustomerRegistrationRequest = {};
+  operation: 'create' | 'update' = 'create';
 
   constructor(
     private customerService: CustomerService,
@@ -42,6 +43,8 @@ export class CustomerComponent implements OnInit {
   save(customer: CustomerRegistrationRequest) {
     if (customer) {
       console.log(customer);
+    }
+    if (this.operation === 'create') {
       this.customerService.registerCustomer(customer)
         .subscribe({
           next: () => {
@@ -63,7 +66,39 @@ export class CustomerComponent implements OnInit {
           error: (err) => {
             console.log(err);
             if (err.status === 409) {
-              this.messageService.add (
+              this.messageService.add(
+                {
+                  severity: 'error',
+                  summary: 'Customer not saved',
+                  detail: err.error.message
+                }
+              )
+            }
+          }
+        })
+    } else if (this.operation === 'update') {
+      this.customerService.updateCustomer(customer.id, customer)
+        .subscribe({
+          next: () => {
+            console.log('Customer successfully saved');
+            // Refresh list of customers
+            this.getAllCustomers();
+            // Hide sidebar
+            this.display = false;
+            // Reset customer request
+            this.customer = {};
+            // Send success message
+            this.messageService.add(
+              {
+                severity: 'success',
+                summary: 'Customer saved',
+                detail: `Customer ${customer.name} successfully added`
+              })
+          },
+          error: (err) => {
+            console.log(err);
+            if (err.status === 409) {
+              this.messageService.add(
                 {
                   severity: 'error',
                   summary: 'Customer not saved',
@@ -77,7 +112,7 @@ export class CustomerComponent implements OnInit {
   }
 
   delete(customer: CustomerDTO) {
-    if(customer) {
+    if (customer) {
       this.confirmationService.confirm({
         message: `Are you sure you want to delete ${customer.name}?. You can't undo this action afterwards`,
         header: 'Delete Customer',
@@ -105,10 +140,10 @@ export class CustomerComponent implements OnInit {
         reject: (type: ConfirmEventType) => {
           switch (type) {
             case ConfirmEventType.REJECT:
-              this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected' });
+              this.messageService.add({severity: 'error', summary: 'Rejected', detail: 'You have rejected'});
               break;
             case ConfirmEventType.CANCEL:
-              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: 'You have cancelled' });
+              this.messageService.add({severity: 'warn', summary: 'Cancelled', detail: 'You have cancelled'});
               break;
           }
         }
@@ -116,5 +151,23 @@ export class CustomerComponent implements OnInit {
 
     }
 
+  }
+
+  update(customer: CustomerDTO) {
+    this.operation = 'update';
+    this.customer = customer;
+    this.display = true;
+
+  }
+
+  create() {
+    this.display = true;
+    this.operation = 'create';
+    this.customer = {};
+  }
+
+  cancel() {
+    this.display = false;
+    this.customer = {};
   }
 }

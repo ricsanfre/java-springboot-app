@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import {MenuItem} from "primeng/api";
+import {MenuItem, MenuItemCommandEvent} from "primeng/api";
+import {AuthenticationResponse} from "../../models/authentication-response";
+import {JwtHelperService} from "@auth0/angular-jwt";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-header-bar',
@@ -7,6 +10,11 @@ import {MenuItem} from "primeng/api";
   styleUrls: ['./header-bar.component.scss']
 })
 export class HeaderBarComponent {
+
+  constructor(
+    private router: Router
+  ) {
+  }
   items: MenuItem[] = [
     {
       label:'Profile',
@@ -21,9 +29,41 @@ export class HeaderBarComponent {
     },
     {
       label:'Sign out',
-      icon: 'pi pi-sign-out'
+      icon: 'pi pi-sign-out',
+      command: () => {
+        console.log('Sign out');
+        // Clean local storage
+        localStorage.removeItem('user');
+        // navigate
+        this.router.navigate(['login']);
+      }
     }
   ];
 
+  get userName():string  {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      // Convert to JSON object
+      const authResponse: AuthenticationResponse = JSON.parse(storedUser);
+      const userName = authResponse.customerDTO?.userName
+      if (userName) {
+        return userName;
+      }
+    }
+    return '--';
+  }
+
+  get userRole():string {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      // Convert to JSON object
+      const authResponse: AuthenticationResponse = JSON.parse(storedUser);
+      const userRole = authResponse.customerDTO?.userRoles;
+      if (userRole) {
+        return userRole[0];
+      }
+    }
+    return '--';
+  }
 
 }
