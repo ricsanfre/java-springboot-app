@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {CustomerDTO} from "../../models/customer-dto";
 import {CustomerService} from "../../services/customer/customer.service";
 import {CustomerRegistrationRequest} from "../../models/customer-registration-request";
+import {MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-customer',
@@ -14,7 +15,8 @@ export class CustomerComponent implements OnInit {
   customer: CustomerRegistrationRequest = {};
 
   constructor(
-    private customerService: CustomerService
+    private customerService: CustomerService,
+    private messageService: MessageService
   ) {
   }
 
@@ -49,6 +51,13 @@ export class CustomerComponent implements OnInit {
             this.display = false;
             // Reset customer request
             this.customer = {};
+            // Send success message
+            this.messageService.add(
+              {
+                severity: 'success',
+                summary: 'Customer saved',
+                detail: `Customer ${customer.name} successfully added`
+              })
           },
           error: (err) => {
             console.log(err);

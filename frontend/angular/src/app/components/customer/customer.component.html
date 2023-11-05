@@ -26,7 +26,7 @@
         (click)="display = true"
       >
       </button>
-      <div>
+      <div class="flex justify-content-center flex-wrap align-items-center gap-5 mt-4">
         <app-customer-card
           *ngFor="let customer of customers"
           [customer]= customer
@@ -36,3 +36,7 @@
     </div>
   </div>
 </div>
+
+<p-toast position="bottom-center">
+
+</p-toast>
