@@ -15,4 +15,6 @@ public interface CustomerDAO {
 
     void updateCustomer(Customer customer);
     void deleteAll();
+
+    void updateCustomerProfileImageId(Integer id, String profileImageId);
 }

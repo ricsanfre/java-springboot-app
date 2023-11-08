@@ -38,7 +38,12 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     show_sql: true
-
+  servlet:
+    multipart:
+      max-file-size: 11MB
+      max-request-size: 11MB
+  codec:
+    max-in-memory-size: 11MB
 #  Actuators
 #  https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html
 
@@ -63,3 +68,11 @@ info:
     description: "Spring Boot Master Class code"
     version: "1.0"
   company: ricsanfre
+
+# AWS config
+aws:
+  region: eu-west-3
+  s3:
+    mock: true
+    buckets:
+      customer: demo-app-bucket-test

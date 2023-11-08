@@ -169,9 +169,13 @@ From backend directory;
   mvn jib:build
   ``
 
-### Frontend
+### Frontend (React)
 
 From frontend/react directory execute
+- Install node
+  ```
+  nvm use ${VERSION_NODE_17}
+  ```
 - Install dependencies
   ```
   npm ci
@@ -181,7 +185,24 @@ From frontend/react directory execute
   npm run build
   ```
   
+### Frontend (Angular)
 
+- Install node
+  ```
+  nvm use ${VERSION_NODE_17}
+  ```
+- Install dependencies
+  ```
+  npm ci
+  ```
+- Install angular cli
+  ```
+  npm install @angular/cli
+  ``
+- Build
+  ```
+  npm run build
+  ```
   
 ## Start Application
 

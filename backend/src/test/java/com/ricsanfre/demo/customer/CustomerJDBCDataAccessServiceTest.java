@@ -372,4 +372,32 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestcontainersUnitTest {
         //Then
         assertThat(actual).isEqualTo(0);
     }
+
+    @Test
+    void canSetProfileImageId() {
+        // Given
+        String email = FAKER.internet().safeEmailAddress() + "-" + UUID.randomUUID();
+
+        String profileImageId = UUID.randomUUID().toString();
+        Customer customer = new Customer(
+                FAKER.name().fullName(),
+                FAKER.internet().password(),
+                email,
+                20,
+                Gender.randomGender());
+        underTest.insertCustomer(customer);
+
+        Customer insertedCustomer = underTest.getCustomerByEmail(email).orElseThrow();
+
+        int customerId = insertedCustomer.getId();
+        // When
+        underTest.updateCustomerProfileImageId(customerId, profileImageId);
+        // Then
+        Optional<Customer> actual = underTest.getCustomerById(customerId);
+
+        assertThat(actual).isPresent().hasValueSatisfying(c -> {
+            assertThat(c.getProfileImageId()).isEqualTo(profileImageId);
+        });
+
+    }
 }

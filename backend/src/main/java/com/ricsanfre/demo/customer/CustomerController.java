@@ -3,8 +3,10 @@ package com.ricsanfre.demo.customer;
 import com.ricsanfre.demo.jwt.JWTUtil;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 @RestController
@@ -54,4 +56,21 @@ public class CustomerController {
 
     }
 
+    @PostMapping(
+            value = "api/v1/customer/{id}/profile-image",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public void uploadCustomerProfileImage(
+            @PathVariable("id") Integer id,
+            @RequestParam("file") MultipartFile file) {
+
+        customerService.uploadCustomerProfileImage(id,file);
+
+    }
+    @GetMapping("api/v1/customer/{id}/profile-image")
+    public byte[] getCustomerProfileImage(
+            @PathVariable("id") Integer id) {
+
+        return customerService.getCustomerProfileImage(id);
+
+    }
 }

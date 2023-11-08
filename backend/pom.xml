@@ -33,6 +33,13 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>software.amazon.awssdk</groupId>
+                <artifactId>bom</artifactId>
+                <version>2.20.109</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <dependencies>
@@ -74,6 +81,15 @@
             <version>1.19.1</version>
             <scope>test</scope>
         </dependency>
+        <!-- Adding Mockito-inline to enable Mocking of final classes
+             https://stackoverflow.com/questions/14292863/how-to-mock-a-final-class-with-mockito
+        -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-inline</artifactId>
+            <scope>test</scope>
+        </dependency>
+
         <!-- Webflux for integration testing
              https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.testing.spring-boot-applications.with-running-server
              Integration Test with running server requires web-flux
@@ -203,6 +219,26 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- AWS Java SDK S3
+             https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/setup-project-maven.html
+        -->
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>s3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>apache-client</artifactId>
+        </dependency>
+
+        <!-- Apache Common IO File Utils for implementing FakeS3
+             https://commons.apache.org/proper/commons-io/description.html
+        -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.13.0</version>
+        </dependency>
 
     </dependencies>
 

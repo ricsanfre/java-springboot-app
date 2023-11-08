@@ -7,6 +7,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class CustomerJPADataAccessServiceTest {
@@ -107,5 +109,17 @@ class CustomerJPADataAccessServiceTest {
         underTest.deleteAll();
         //Then
         Mockito.verify(customerRepository).deleteAll();
+    }
+
+    @Test
+    void updateCustomerProfileImageId() {
+        // Given
+        Integer id = 1;
+        String profileImageId= UUID.randomUUID().toString();
+
+        //When
+        underTest.updateCustomerProfileImageId(id, profileImageId);
+
+        Mockito.verify(customerRepository).setProfileImageId(profileImageId, id);
     }
 }

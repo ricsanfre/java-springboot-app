@@ -89,4 +89,31 @@ class CustomerRepositoryTest extends AbstractTestcontainersUnitTest {
         assertThat(actual).isNotPresent();
     }
 
+    @Test
+    void canSetProfileImageId() {
+        // Given
+        String email = FAKER.internet().safeEmailAddress() + "-" + UUID.randomUUID();
+
+        String profileImageId = UUID.randomUUID().toString();
+
+        Customer customer = new Customer(
+                FAKER.name().fullName(),
+                FAKER.internet().password(),
+                email,
+                20,
+                Gender.randomGender());
+
+        underTest.save(customer);
+        int customerId = underTest.findAll().stream().filter(c -> c.getEmail().equals(email))
+                .findFirst().map(c -> c.getId()).orElseThrow();
+        // When
+        underTest.setProfileImageId(profileImageId,customerId);
+        // Then
+        Optional<Customer> actual = underTest.findById(customerId);
+
+        assertThat(actual).isPresent().hasValueSatisfying(c -> {
+            assertThat(c.getProfileImageId()).isEqualTo(profileImageId);
+        });
+
+    }
 }

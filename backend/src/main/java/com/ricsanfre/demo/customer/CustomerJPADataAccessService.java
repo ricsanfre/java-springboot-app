@@ -57,4 +57,9 @@ public class CustomerJPADataAccessService implements CustomerDAO {
     public void deleteAll() {
         customerRepository.deleteAll();
     }
+
+    @Override
+    public void updateCustomerProfileImageId(Integer id, String profileImageId) {
+        customerRepository.setProfileImageId(profileImageId, id);
+    }
 }

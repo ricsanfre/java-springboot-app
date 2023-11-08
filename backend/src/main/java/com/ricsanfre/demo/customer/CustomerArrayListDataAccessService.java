@@ -69,4 +69,9 @@ public class CustomerArrayListDataAccessService implements CustomerDAO {
     public void deleteAll() {
         customers.stream().forEach(c -> customers.remove(c));
     }
+
+    @Override
+    public void updateCustomerProfileImageId(Integer id, String profileImageId) {
+        // Not need to implement.
+    }
 }

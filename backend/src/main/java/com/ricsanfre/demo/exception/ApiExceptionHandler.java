@@ -8,6 +8,8 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import software.amazon.awssdk.core.exception.SdkClientException;
+import software.amazon.awssdk.core.exception.SdkServiceException;
 
 import java.time.ZonedDateTime;
 
@@ -78,6 +80,32 @@ public class ApiExceptionHandler {
                 ZonedDateTime.now()
         );
         return new ResponseEntity<>(apiErrorResponse, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(value = SdkServiceException.class)
+    public ResponseEntity<Object> handleAWSSdkServiceException(
+            SdkServiceException e,
+            HttpServletRequest request) {
+        ApiErrorResponse apiErrorResponse = new ApiErrorResponse(
+                request.getRequestURI(),
+                e.getMessage(),
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                ZonedDateTime.now()
+        );
+        return new ResponseEntity<>(apiErrorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(value = SdkClientException.class)
+    public ResponseEntity<Object> handleAWSSdkClientException(
+            SdkClientException e,
+            HttpServletRequest request) {
+        ApiErrorResponse apiErrorResponse = new ApiErrorResponse(
+                request.getRequestURI(),
+                e.getMessage(),
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                ZonedDateTime.now()
+        );
+        return new ResponseEntity<>(apiErrorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(value = Exception.class)
