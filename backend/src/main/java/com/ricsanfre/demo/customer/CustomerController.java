@@ -66,7 +66,10 @@ public class CustomerController {
         customerService.uploadCustomerProfileImage(id,file);
 
     }
-    @GetMapping("api/v1/customer/{id}/profile-image")
+    @GetMapping(
+            value = "api/v1/customer/{id}/profile-image",
+            produces = MediaType.IMAGE_JPEG_VALUE
+    )
     public byte[] getCustomerProfileImage(
             @PathVariable("id") Integer id) {
 
