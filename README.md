@@ -39,6 +39,7 @@ Two types of frontend
 - [Axios](https://axios-http.com/)
 - [React Router](https://reactrouter.com/)
 - [Jwt decode](https://github.com/auth0/jwt-decode)
+- [react-dropzone](https://react-dropzone.js.org/)
 
 
 [Angular](https://angular.io/) application using:
@@ -120,6 +121,12 @@ Install Node JS using [Node Version Manager](https://github.com/nvm-sh/nvm)
 
   ```
   npm install axios
+  ```
+
+- Install react-dropzone
+
+  ```
+  npm install --save react-dropzone
   ```
 
 ### Frontend (Angular)

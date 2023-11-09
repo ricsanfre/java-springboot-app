@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react'
 import DeleteAlertDialog from "./DeleteAlertDialog.jsx";
 import UpdateDrawerForm from "./UpdateDrawerForm.jsx";
+import {customerProfilePictureUrl} from "../../services/client.js";
 
 
 
@@ -38,9 +39,7 @@ export default function CardWithImage({id, name, email, age, gender, fetchCustom
                 <Flex justify={'center'} mt={-12}>
                     <Avatar
                         size={'xl'}
-                        src={
-                            `https://randomuser.me/api/portraits/${menOrWomen}/${id}.jpg`
-                        }
+                        src={customerProfilePictureUrl(id)}
                         css={{
                             border: '2px solid white',
                         }}

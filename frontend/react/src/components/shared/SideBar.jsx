@@ -55,7 +55,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
         <Image
           borderRadius='full'
           boxSize='75px'
-          src='https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Spring_Boot.svg/512px-Spring_Boot.svg.png'
+          src='https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg'
           alt='Demo APP'
         />
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />

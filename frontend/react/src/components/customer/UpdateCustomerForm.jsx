@@ -2,9 +2,16 @@
 
 import {Formik, Form, useField} from 'formik';
 import * as Yup from 'yup';
-import {Alert, AlertIcon, Box, Button, FormLabel, Input, Select, Stack} from "@chakra-ui/react";
-import {saveCustomer, updateCustomer} from "../../services/client.js";
+import {Alert, AlertIcon, Box, Button, FormLabel, Image, Input, Select, Stack, VStack} from "@chakra-ui/react";
+import {
+    customerProfilePictureUrl,
+    saveCustomer,
+    updateCustomer,
+    uploadCustomerProfileImage
+} from "../../services/client.js";
 import {errorNotification, successNotification} from "../../services/notification.js";
+import {useCallback} from "react";
+import {useDropzone} from "react-dropzone";
 
 const MyTextInput = ({label, ...props}) => {
     // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
@@ -60,10 +67,61 @@ const MyCheckbox = ({children, ...props}) => {
     );
 };
 
+// react-dropzone react component
+// https://react-dropzone.js.org/
+
+const MyDropzone = ({id, fetchCustomers}) => {
+    const onDrop = useCallback(acceptedFiles => {
+        // Do something with the files
+        const formData = new FormData();
+        formData.append("file", acceptedFiles[0]);
+        uploadCustomerProfileImage(id, formData)
+            .then((res)=>{
+                successNotification("Success", "Profile image successfully uploaded");
+                fetchCustomers();
+            }).catch((err) => {
+                errorNotification("Fail", "Profile image upload fails");
+
+        });
+    }, [])
+    const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
+
+    return (
+        <Box {...getRootProps()}
+             w={'100%'}
+             textAlign={'center'}
+             border={'dashed'}
+             borderColor={'gray.200'}
+             borderRadius={'3xl'}
+             p={6}
+             rounded={'md'}
+        >
+            <input {...getInputProps()} />
+            {
+                isDragActive ?
+                    <p>Drop the profile image here ...</p> :
+                    <p>Drag 'n' drop image here, or click to select image</p>
+            }
+        </Box>
+    )
+}
+
 // And now we can use these
 const UpdateCustomerForm = ({initialValues, fetchCustomers}) => {
     return (
         <>
+            <VStack spacing={'5'} mb={'5'}>
+                <Image
+                    borderRadius={'full'}
+                    boxSize={'150px'}
+                    objectFit={'cover'}
+                    src={customerProfilePictureUrl(initialValues.id)}
+                />
+                <MyDropzone
+                    id={initialValues.id}
+                    fetchCustomers={fetchCustomers}
+                />
+            </VStack>
             <Formik
                 initialValues={{
                     id: `${initialValues.id}`,
@@ -80,10 +138,10 @@ const UpdateCustomerForm = ({initialValues, fetchCustomers}) => {
                         .required('Required'),
                     updatePassword: Yup.boolean()
                         .required('Required')
-                        .oneOf([true,false], 'Select if you want to update the password.'),
+                        .oneOf([true, false], 'Select if you want to update the password.'),
                     password: Yup.string()
                         .max(20, 'Must be 20 characters or less')
-                        .when( 'updatePassword', {
+                        .when('updatePassword', {
                             is: true,
                             then: () => Yup.string()
                                 .max(20, 'Must be 20 characters or less')
