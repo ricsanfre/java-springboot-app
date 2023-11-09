@@ -1,0 +1,14 @@
+# AWS config
+aws:
+  region: eu-west-3
+  s3:
+    mock: false
+    buckets:
+      customer: demo-app-bucket-test
+
+spring:
+  # PostgreSQL configuration
+  datasource:
+    url: jdbc:postgresql://awseb-e-mddg2zmpfs-stack-awsebrdsdatabase-cflagevj7g2d.cocyccnbq9um.eu-west-3.rds.amazonaws.com:5432/customer
+    username: ricsanfre
+    password: password
