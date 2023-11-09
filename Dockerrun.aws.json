@@ -3,7 +3,7 @@
   "containerDefinitions": [
     {
       "name": "demo-app",
-      "image": "ricsanfre/spring-boot-demo-api:09.11.2023.11.20.49",
+      "image": "ricsanfre/spring-boot-demo-api:09.11.2023.17.34.51",
       "essential": true,
       "memory": 512,
       "portMappings": [
