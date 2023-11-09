@@ -400,7 +400,7 @@ public class CustomerIntegrationTest {
         byte[] downloadedImage = webTestClient.get()
                 .uri(customerURI + "/{customerId}/profile-image", customerDTO.id())
                 .header(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", jwtToken))
-                .accept(MediaType.APPLICATION_JSON)
+                .accept(MediaType.IMAGE_JPEG)
                 .exchange()
                 .expectStatus()
                 .isOk()
